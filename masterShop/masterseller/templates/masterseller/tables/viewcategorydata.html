@@ -1,0 +1,101 @@
+{% extends 'sellerbase.html' %}
+{% load static %}
+{% load myfilter %}
+
+  {% block header %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Widgets</title>
+  {% endblock %}
+  
+{% block content %}  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Categories data
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Data tables</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Hover Data Table</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Category ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Number of products</th>
+                  <th>Created date</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {% for category,lengthcat in catlen.items %}
+                <tr>
+                  <td>{{category.Id}}</td>
+                  <td>{{category.name}}</td>
+                  <td>{{category.description}}</td>
+                  <td>{{lengthcat}}</td>
+                  <td>{{category.date_created}}</td>
+                </tr>
+                {% endfor %}
+                
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Product ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Number of products</th>
+                  <th>Created date</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box --> 
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+  {% endblock %}
+  {% block JsScripts %}  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+
+<script src="{% static "/bower_components/datatables.net/js/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" %}"></script>
+<link rel="stylesheet" href="{% static "/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" %}">
+<!-- page script -->
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+{% endblock %}

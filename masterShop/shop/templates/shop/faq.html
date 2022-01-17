@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<title>FAQ</title>
+{% endblock %}
+{% block content %}
+
+{% include "shop/navigation2.html" %}
+
+<div class="container">
+<!-- section -->
+	<div class="section">
+		<!-- container -->
+        <div class="row">
+          <div class="section-title">
+						<h3 class="title">frequently asked questions</h3>
+					</div>
+					<div class="col-md-6" style="margin-top:20px;">
+						<h2 class="title">General Questions</h2>
+						<div class="panel-group accordion" id="faqs" role="tablist" aria-multiselectable="true">
+						    <div class="panel panel-default">
+						        <div class="panel-heading">
+						            <h4 class="panel-title">
+								        <a data-toggle="collapse" data-parent="#faqs" href="#faq-1" aria-expanded="true">
+									        Is account registration required?
+								        </a>
+								    </h4>
+						        </div>
+						        <div id="faq-1" class="panel-collapse collapse in">
+						            <div class="panel-body">
+						                Account registration at MasterShop is only required if you will be shopping. This ensures a valid communication channel for all parties involved in any transactions.
+						            </div>
+						        </div>
+						    </div>
+
+						    <div class="panel panel-default">
+						        <div class="panel-heading">
+						            <h4 class="panel-title">
+								        <a data-toggle="collapse" data-parent="#faqs" href="#faq-2" aria-expanded="true">
+									        What is the currency used for all transactions?
+								        </a>
+								    </h4>
+						        </div>
+						        <div id="faq-2" class="panel-collapse collapse">
+						            <div class="panel-body">
+						                All prices for products and other items, including each seller's or buyer's account balance are in USD.
+						            </div>
+						        </div>
+						    </div>
+
+						    <div class="panel panel-default">
+						        <div class="panel-heading">
+						            <h4 class="panel-title">
+								        <a data-toggle="collapse" data-parent="#faqs" href="#faq-3" aria-expanded="true">
+									        What payment methods do you accept?
+								        </a>
+								    </h4>
+						        </div>
+						        <div id="faq-3" class="panel-collapse collapse">
+						            <div class="panel-body">
+                          Best Made Company (MasterShop) accepts all major credit cards: Visa®, MasterCard®, American Express®, Discover®, Diner's Club, JCB, and Best Made Gift Cards.
+						            </div>
+						        </div>
+						    </div>
+
+						    <div class="panel panel-default">
+						        <div class="panel-heading">
+						            <h4 class="panel-title">
+								        <a data-toggle="collapse" data-parent="#faqs" href="#faq-4" aria-expanded="true">
+                          Why can't I find a product I want?
+								        </a>
+								    </h4>
+						        </div>
+						        <div id="faq-4" class="panel-collapse collapse">
+						            <div class="panel-body">
+                          We would love to hear from you and see if we can start stocking this product. Please get in touch with us on 0xx xxx xxxx or use our <a href="/contact"><b>Contact Form</b></a> to let us know what the product is.            
+						            </div>
+						        </div>
+						    </div>
+						</div><!-- /.accordion -->
+					</div>
+
+					<div class="col-md-6" style="margin-top:20px;">
+						<h2 class="title">Users Questions</h2>
+						<div class="panel-group accordion" id="faqs-2" role="tablist" aria-multiselectable="true">
+						    <div class="panel panel-default">
+						        <div class="panel-heading">
+						            <h4 class="panel-title">
+								        <a data-toggle="collapse" data-parent="#faqs-2" href="#faq-2-1" aria-expanded="true">
+                          What if I need to return something?
+								        </a>
+								    </h4>
+						        </div>
+						        <div id="faq-2-1" class="panel-collapse collapse in">
+						            <div class="panel-body">
+                          No worries! <a href="/contact"><b>Contact us</b></a> right away and we'll help guide you through the process - we'll send you a prepaid mailer to send the item back.
+						            </div>
+						        </div>
+						    </div>
+
+						    <div class="panel panel-default">
+						        <div class="panel-heading">
+						            <h4 class="panel-title">
+								        <a data-toggle="collapse" data-parent="#faqs-2" href="#faq-2-2" aria-expanded="true">
+									        From the time I place my order, how long will it be before I receive it?
+								        </a>
+								    </h4>
+						        </div>
+						        <div id="faq-2-2" class="panel-collapse collapse">
+						            <div class="panel-body">
+                          When placing your order, please note the following: For all orders within the USA, please allow 5 - 14 business days for delivery. For all orders outside of the USA, please allow 10 - 21 business days for delivery.
+                          <br><br>
+                          If you have not received your order within the time frame listed above, then please allow at least 3 weeks prior to contacting us to check on the status of your shipping.
+                        </div>
+						        </div>
+						    </div>
+
+						    <div class="panel panel-default">
+						        <div class="panel-heading">
+						            <h4 class="panel-title">
+								        <a data-toggle="collapse" data-parent="#faqs-2" href="#faq-2-3" aria-expanded="true">
+									        My order is missing parts or is broken. What do I need to do?
+								        </a>
+								    </h4>
+						        </div>
+						        <div id="faq-2-3" class="panel-collapse collapse">
+						            <div class="panel-body">
+                          Please contact our customer service department at support@MasterShop.com and we'll help you resolve the problem!
+                        </div>
+						        </div>
+						    </div>
+
+						    <div class="panel panel-default">
+						        <div class="panel-heading">
+						            <h4 class="panel-title">
+								        <a data-toggle="collapse" data-parent="#faqs-2" href="#faq-2-4" aria-expanded="true">
+									        How do I return an item?
+								        </a>
+								    </h4>
+						        </div>
+						        <div id="faq-2-4" class="panel-collapse collapse">
+						            <div class="panel-body">
+                          <p>If you are not satisfied within the first 30 days of your purchase, we will accept a return and process a refund.</p>
+                          <p>Returned products can be sent to the following address. Please complete the return questionnaire found on the back of your original packing slip.</p>
+                        </div>
+						        </div>
+						    </div>
+						</div><!-- /.accordion -->
+					</div>
+        </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,204 @@
+{% load static %}
+{% load myfilter %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icons/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static "/plugins/iCheck/flat/blue.css" %}">
+  <link rel="stylesheet" href="{% static "/bower_components/bootstrap/dist/css/bootstrap.min.css" %}">
+  <link rel="stylesheet" href="{% static "/bower_components/font-awesome/css/font-awesome.min.css" %}">
+  <link rel="stylesheet" href="{% static "/bower_components/Ionicons/css/ionicons.min.css" %}">
+  <link rel="stylesheet" href="{% static "/dist/css/AdminLTE.min.css" %}">
+  <link rel="stylesheet" href="{% static "/dist/css/skins/_all-skins.min.css" %}">
+  <link rel="stylesheet" href="{% static "/bower_components/select2/dist/css/select2.min.css" %}">
+  <link rel="stylesheet" href="{% static "/dist/css/AdminLTE.min.css" %}">
+  <link rel="stylesheet" href="{% static "/dist/css/skins/_all-skins.min.css" %}">
+  <link rel="stylesheet" href="{% static "bower_components/morris.js/morris.css" %}">
+  <link rel="stylesheet" href="{% static "bower_components/jvectormap/jquery-jvectormap.css" %}">
+  <link rel="stylesheet" href="{% static "bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" %}">
+  <link rel="stylesheet" href="{% static "bower_components/bootstrap-daterangepicker/daterangepicker.css" %}">
+  <link rel="stylesheet" href="{% static "plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  {% block header %}
+  {% endblock %}
+</head>
+
+
+<body class="hold-transition skin-green sidebar-mini">
+<div class="wrapper">
+
+  <header class="main-header">
+    <!-- Logo -->
+    <a href="/mastersellerdashboard" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b>M</b>S</span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b>Seller</b>D</span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li class="dropdown messages-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-success">{{newmessages|length}}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">You have {{newmessages|length}} messages</li>
+              {% if messages|length != 0 %}
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <!-- end message -->
+                  {% for message in messages %}
+                  <li>
+                    <a href="#">
+                      <div class="pull-left">
+                        {% if message.profile %}
+                        <img src="{{message.profile.profilePic.url}}" class="img-circle" alt="User Image">
+                        {% endif %}
+                      </div>
+                      <h4>
+                        {{message.fullname}}
+                        <small><i class="fa fa-clock-o"></i> {{message.date_created|date:"M d"}}</small>
+                      </h4>
+                      <p>{{message.content}}</p>
+                    </a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </li>
+              <li class="footer"><a href="/mailbox/mastersellermailbox">See All Messages</a></li>
+              {% endif %}
+            </ul>
+          </li>
+          <!-- Notifications: style can be found in dropdown.less -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning">{{ totaltoday }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">You have {{totaltoday}} notifications</li>
+              <li>
+                {% if totaltoday != 0 %}
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-users text-red"></i> {{productstoday}} products added today
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i class="fa fa-shopping-cart text-green"></i> {{orderstoday}} sales made
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="footer"><a href="#">View all</a></li>
+              {% endif %}
+            </ul>
+          </li>
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="{{profile.profilePic.url}}" class="user-image" alt="User Image">
+              <span class="hidden-xs">{{request.user.username}}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="{{profile.profilePic.url}}" class="img-circle" alt="User Image">
+                <p>{{profile.user.first_name}} {{profile.user.last_name}} - Seller
+                  <small>Member since {{profile.date_joined|date:"M Y"}}</small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+
+              <li class="user-footer">
+                <div class="row">
+                  <div class="col-xs-3 pull-left">
+                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  </div>
+                  <div class="col-xs-3 text-center">
+                    <a href="/" class="btn btn-default btn-flat ">Go To Site</a>
+                  </div>
+                    <a href="/logout" class="btn btn-default btn-flat pull-right">Sign out</a>
+                </div>
+
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="{{profile.profilePic.url}}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>{{profile.user.first_name}} {{profile.user.last_name}}</p>
+          <span style="font-size: 11px"><i class="fa fa-circle text-success"></i> Online</span>
+        </div>
+      </div>
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">MAIN NAVIGATION</li>
+        <li><a href="/mastersellerdashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+        <li><a href="/charts/mastersellergenerallook"><i class="fa fa-pie-chart"></i><span> Charts</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>Products</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="/forms/masterselleraddnewproductform"><i class="fa fa-circle-o"></i> Add a new product</a></li>
+            <li><a href="/forms/mastersellerdeleteproduct"><i class="fa fa-circle-o"></i> Delete a product</a></li>
+            <li><a href="/forms/mastersellerrestockproduct"><i class="fa fa-circle-o"></i> Re-stock a product</a></li>
+            <li><a href="/tables/mastersellerviewproductdata"><i class="fa fa-circle-o"></i> View products</a></li>
+          </ul>
+        </li>
+        <li><a href="/mailbox/mastersellermailbox"><i class="fa fa-envelope"></i><span>Mailbox</span></a></li>
+
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+{% block content %}
+{% endblock %}
+
+</div>
+<!-- ./wrapper -->
+<script src="{% static '/bower_components/jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static '/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/bower_components/jquery-slimscroll/jquery.slimscroll.min.js' %}"></script>
+<script src="{% static '/plugins/iCheck/icheck.min.js' %}"></script>
+<script src="{% static '/bower_components/fastclick/lib/fastclick.js' %}"></script>
+<script src="{% static '/dist/js/adminlte.min.js' %}"></script>
+<script src="{% static '/dist/js/demo.js' %}"></script>
+{% block JsScripts %}
+{% endblock %}
+</body>
+</html>

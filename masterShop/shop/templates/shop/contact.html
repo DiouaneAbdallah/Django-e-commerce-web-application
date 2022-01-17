@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load myfilter %}
+{% block header %}
+
+<title>Contact us</title>
+
+{% endblock %}
+
+{% block content %}
+
+{% include "shop/navigation2.html" %}
+
+	<!-- content page -->
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="section-title">
+					<h3 class="title">Contact us</h3>
+				</div>
+				<div class="col-md-6">
+					<div class="contact100-pic js-tilt" data-tilt style="margin: 0px auto;">
+						<img src="{% static 'shop/img/img-01.png' %}" alt="IMG">
+					</div>
+
+					<style media="screen">
+					.contact100-pic {
+						width: 310px;
+						padding-top: 55px;
+					}
+					</style>
+				</div>
+
+				<div class="col-md-6">
+					<form enctype="multipart/form-data" action="/contact/" method="post">
+						{% csrf_token %}
+						<h4>
+							Send us your message
+						</h4>
+						<div class="row">
+							<div class="form-group col-xs-6">
+								<label for="formGroupfullName">Full name</label>
+								<input type="text" class="form-control" name="fullName" id="formGroupfullName" placeholder="Full name">
+							</div>
+
+							<div class="form-group col-xs-6">
+								<label for="formGroupemail">Email</label>
+								<input type="email" class="form-control" name="email" id="formGroupemail" placeholder="Email Address">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="formGroupsubject">Subject</label>
+							<input type="text" class="form-control" name="subject" id="formGroupsubject" placeholder="subject">
+						</div>
+						
+						<div class="form-group">
+							<label for="formGroupMessage">Message</label>
+							<textarea class="form-control" rows="6" name="message" placeholder="Message" id="formGroupaMessage"></textarea>
+						</div>
+
+						<button type="submit" class="btn btn-primary mb-2">Send</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+{% block JsScripts %}
+<script src="{% static 'shop/vendor/tilt/tilt.jquery.min.js' %}"></script>
+<script >
+	$('.js-tilt').tilt({
+		scale: 1.1
+	})
+</script>
+{% endblock %}

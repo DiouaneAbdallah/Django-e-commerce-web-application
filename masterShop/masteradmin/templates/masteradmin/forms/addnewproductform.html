@@ -1,0 +1,200 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% block header %}
+  <title>Add new product</title>
+{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Add New Product</h3>
+            </div>
+            <form role="form" action="/forms/addnewproductform/" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="box-body">
+                <div class="row">
+                    <div class="form-group col-xs-4">
+                      <label >Product name</label>
+                      <input type="text" class="form-control" id="productname" name="productname" placeholder="Enter product name">
+                    </div>
+                    <div class="col-xs-2">
+                      <label >Price</label>
+                      <input type="number" class="form-control" id="productprice" name="productprice" placeholder="Enter the Price">
+                    </div>
+                    <div class="col-xs-2">
+                      <label >Old price</label>
+                      <input type="number" class="form-control" id="productoldprice" name="productoldprice" placeholder="Enter the old Price">
+                    </div>
+                    <div class="col-xs-4">
+                      <div class="form-group">
+                        <label>Category</label>
+                        <a href="#" data-toggle="control-sidebar" onClick="MyWindow=window.open('/forms/addnewcategoryform','MyWindow',width=300,height=300); return false;"><i class="fa fa-plus"></i></a>
+
+                        {% if categories|length != 0 %}
+                          <select multiple class="form-control" name="productcategory">
+                            {% for category in categories %}
+                            <option>{{ category }}</option>
+                            {% endfor %}
+                          </select>
+                        {% else %}
+                          <select class="form-control" disabled="disabled">
+                            <option>No categories available</option>
+                          </select>
+                        {% endif %}
+                      </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-xs-4">
+                    <label >Manufacturer</label>
+                    <input type="text" class="form-control" id="productmanufacturer" name="productmanufacturer" placeholder="Enter product manufacturer" >
+                  </div>
+                  <div class="form-group col-xs-4">
+                    <label >Features</label>
+                    <input type="text" class="form-control" id="productfeatures" name="productfeatures" placeholder="Enter product features" >
+                    <p class="help-block">Seperate the features with a "|".</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <div class="form-group">
+                      <label >Pieces in stock</label>
+                      <input type="number" class="form-control" id="productpiecesstock" name="productpiecesstock" placeholder="Enter the number of pieces in stock">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xs-6">
+                      <label >Description</label>
+                      <textarea class="form-control" rows="5" id="productdescription" name="productdescription" placeholder="Enter description..."></textarea>
+                    </div>
+                    <div class="form-group col-xs-6">
+                      <label >Details</label>
+                      <textarea class="form-control" rows="5" id="productdetail" name="productdetail" placeholder="Enter product details..."></textarea>
+                    </div>
+                </div>
+
+                  <div class="row">
+                    <div class="col-xs-4">
+                      <label >Product images</label>
+                      <input type="file" name="productimages" multiple>
+                      <p class="help-block">Enter three images of the product.</p>
+                    </div>
+                    <div class="form-group col-xs-8">
+                      <label >Keywords</label>
+                      <input type="text" class="form-control" id="productkeywords" name="productkeywords" placeholder="Enter product keywords">
+                      <p class="help-block">Seperate the keywords with a "|".</p>
+                    </div>
+                  </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary" id="sendproduct">Finish</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box -->
+          <!-- /.box -->
+        </div>
+        <!--/.col (right) -->
+
+</div>
+      <!-- /.row -->
+    </section>
+
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+{% endblock %}
+<!-- ./wrapper -->
+{% block JsScripts %}
+
+
+  <script src="{% static 'plugins/input-mask/jquery.inputmask.js' %}"></script>
+  <script src="{% static 'plugins/input-mask/jquery.inputmask.date.extensions.js' %}"></script>
+  <script src="{% static 'plugins/input-mask/jquery.inputmask.extensions.js' %}"></script>
+  <script type="text/javascript" src="{% static 'vendor/sweetalert/sweetalert.min.js' %}"></script>
+  <script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    })
+
+    //iCheck for checkbox and radio inputs
+    $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+      checkboxClass: 'icheckbox_minimal-blue',
+      radioClass   : 'iradio_minimal-blue'
+    })
+    //Red color scheme for iCheck
+    $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+      checkboxClass: 'icheckbox_minimal-red',
+      radioClass   : 'iradio_minimal-red'
+    })
+    //Flat red color scheme for iCheck
+    $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+      checkboxClass: 'icheckbox_flat-green',
+      radioClass   : 'iradio_flat-green'
+    })
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    //Timepicker
+    $('.timepicker').timepicker({
+      showInputs: false
+    })
+  })
+
+/*
+$('#sendproduct').click(function () {
+    $("form").submit(function(e){
+      if($('#productkeywords').val() == "" || $('#productpiecesstock').val() == "" || $('#productfeatures').val() == "" || $('#productprice').val() == "" || $('#productname').val() == "" || $('#productmanufacturer').val() || $('textarea#productdescription').val() == ""){
+        e.preventDefault(e);
+        swal("","Fill in all fields", "error")
+      }
+    });
+  });
+*/
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,799 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<title>Home</title>
+{% endblock %}
+{% block content %}
+
+{% include "shop/navigation.html" %}
+
+	<!-- HOME -->
+	<div id="home">
+		<!-- container -->
+		<div class="container">
+			<!-- home wrap -->
+			<div class="home-wrap">
+				<!-- home slick -->
+				<div id="home-slick">
+					<!-- banner -->
+					<div class="banner banner-1">
+						<img src="{% static 'shop/img/banner01.jpg' %}" alt=" ">
+						<div class="banner-caption text-center">
+							<h1 class="white-color">Gaming Equipment</h1>
+							<h3 class="white-color font-weak">Up to 50% Discount</h3>
+							<a href="/products?cat=12"><button class="primary-btn">Shop Now</button></a>
+						</div>
+					</div>
+					<!-- /banner -->
+
+					<!-- banner -->
+					<div class="banner banner-1">
+						<img src="{% static 'shop/img/banner02.jpg' %}" alt="">
+						<div class="banner-caption" >
+							<h1 class="primary-color">Best of 2018 SmartphonesL<br><span class="white-color font-weak">Up to 40% OFF</span></h1>
+							<a href="/products?cat=3"><button class="primary-btn">Shop Now</button></a>
+						</div>
+					</div>
+					<!-- /banner -->
+					<!-- banner -->
+					<div class="banner banner-1">
+						<img src="{% static 'shop/img/banner17.jpg' %}" alt="">
+						<div class="banner-caption" >
+							<a href="/products?cat=3"><button class="primary-btn">Shop Now</button></a>
+						</div>
+					</div>
+					<!-- /banner -->
+
+					<!-- banner -->
+					<div class="banner banner-1" >
+						<img src="{% static 'shop/img/banner03.jpg' %}" alt="">
+						<div class="banner-caption">
+							<h1 class="white-color">Video Games<span>Up to 30% OFF</span></h1>
+							<a href="/products?cat=1"><button class="primary-btn">Shop Now</button></a>
+						</div>
+					</div>
+					<!-- /banner -->
+				</div>
+				<!-- /home slick -->
+			</div>
+			<!-- /home wrap -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /HOME -->
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- banner -->
+				<div class="col-md-4 col-sm-6">
+					<a class="banner banner-1" href="/products/?cat=11">
+						<img src="{% static 'shop/img/banner10.jpg' %}" alt="">
+					</a>
+				</div>
+				<!-- /banner -->
+
+				<!-- banner -->
+				<div class="col-md-4 col-sm-6">
+					<a class="banner banner-1" href="/products/?cat=1">
+						<img src="{% static 'shop/img/banner11.jpg' %}" alt="">
+					</a>
+				</div>
+				<!-- /banner -->
+
+				<!-- banner -->
+				<div class="col-md-4 col-md-offset-0 col-sm-6 col-sm-offset-3">
+					<a class="banner banner-1" href="/products/?cat=3">
+						<img src="{% static 'shop/img/banner12.jpg' %}" alt="">
+					</a>
+				</div>
+				<!-- /banner -->
+
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- section-title -->
+				<div class="col-md-12">
+					<div class="section-title">
+						<h2 class="title">Video Games</h2>
+						<div class="pull-right">
+							<div class="product-slick-dots-1 custom-dots"></div>
+						</div>
+					</div>
+				</div>
+				<!-- /section-title -->
+
+				<!-- banner -->
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="banner banner-2">
+						<img src="{% static 'shop/img/banner14.jpg' %}" alt="">
+						<div class="banner-caption">
+							<h2 style="color:#fdfdfd;">Video<br>Games</h2>
+							<a href="/products?cat=1"><button class="primary-btn">View all</button></a>
+						</div>
+					</div>
+				</div>
+				<!-- /banner -->
+
+				<!-- Product Slick -->
+				<div class="col-md-9 col-sm-6 col-xs-6">
+					<div class="row">
+						<div id="product-slick-1" class="product-slick">
+							{% for produit in Products_cat.1 %}
+							<!-- Product Single -->
+							<div class="product product-single">
+								<div class="product-thumb">
+									<div class="product-label">
+										<span>New</span>
+									</div>
+									<img src="{{ produit.image.url }}" alt="" width="270px" height="360px">
+								</div>
+								<div class="product-body">
+									<h3 class="product-price">${{ produit.price }} <del class="product-old-price">${{ produit.old_price }}</del></h3>
+									<div class="product-rating">
+										{% ifequal 0 produit.rating %}
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 1 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 2 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 3 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 4 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 5 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										{% endifequal %}
+									</div>
+									<h2 style="height: 32px;overflow: hidden;" class="product-name"><a href="/product_detail?prod={{produit.Id}}">{{ produit.name }}</a></h2>
+									<div class="product-btns">
+										<button style="width:23%;" id="prodw1{{produit.Id}}" class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+										<button style="width:75%;" id="product1{{produit.Id}}" class="primary-btn"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /Product Single -->
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				<!-- /Product Slick -->
+			</div>
+			<!-- /row -->
+
+			<!-- row -->
+			<div class="row">
+				<!-- section title -->
+				<style media="screen">
+					.banner-new-caption {
+					    position: absolute;
+					    left: 31%;
+					    right: 31%;
+					    bottom: 44%;
+					}
+				</style>
+				<div class="col-md-12">
+					<div class="section-title">
+						<h2 class="title">New Year Deals</h2>
+						<div class="pull-right">
+							<div class="product-slick-dots-2 custom-dots">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- section title -->
+				<!-- banner -->
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="banner banner-2">
+						<img src="{% static 'shop/img/banner18.jpg' %}" alt="">
+						<div class=" banner-new-caption">
+							<a href="/products?cat=1"><button class="primary-btn">View all</button></a>
+						</div>
+					</div>
+				</div>
+				<!-- /banner -->
+
+				<!-- Product Slick -->
+				<div class="col-md-9 col-sm-6 col-xs-6">
+					<div class="row">
+						<div id="product-slick-2" class="product-slick">
+
+							{% for produit in Products_cat.17 %}
+							<!-- Product Single -->
+							<div class="product product-single">
+								<div class="product-thumb">
+									<div class="product-label">
+										<span>New</span>
+									</div>
+									<img src="{{ produit.image.url }}" alt="" width="270px" height="360px">
+								</div>
+								<div class="product-body">
+									<h3 class="product-price">${{ produit.price }} <del class="product-old-price">${{ produit.old_price }}</del></h3>
+									<div class="product-rating">
+										{% ifequal 0 produit.rating %}
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 1 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 2 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 3 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 4 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 5 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										{% endifequal %}
+									</div>
+									<h2 style="height: 32px;overflow: hidden;" class="product-name"><a href="/product_detail?prod={{produit.Id}}">{{ produit.name }}</a></h2>
+									<div class="product-btns">
+										<button style="width:23%;" id="prodw2{{produit.Id}}" class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+										<button style="width: 75%" id="product2{{produit.Id}}" class="primary-btn" ><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+									</div>
+								</div>
+							</div>
+							<!-- /Product Single -->
+							{% endfor %}
+
+						</div>
+					</div>
+				</div>
+				<!-- /Product Slick -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+	<!-- section -->
+	<div class="section section-grey">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- banner -->
+				<div class="col-md-8">
+					<div class="banner banner-1">
+						<a class="banner banner-1" href="/products/">
+							<img src="{% static 'shop/img/banner13.jpg' %}" alt="">
+						</a>
+					</div>
+				</div>
+				<!-- /banner -->
+
+				<!-- banner -->
+				<div class="col-md-4 col-sm-6">
+					<a class="banner banner-1" href="/products/?cat=1">
+						<img src="{% static 'shop/img/banner11.jpg' %}" alt="">
+					</a>
+				</div>
+				<!-- /banner -->
+
+				<!-- banner -->
+				<div class="col-md-4 col-sm-6">
+					<a class="banner banner-1" href="/product_detail?prod=47">
+						<img src="{% static 'shop/img/banner16.jpg' %}" alt="">
+					</a>
+				</div>
+				<!-- /banner -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- section title -->
+				<div class="col-md-12">
+					<div class="section-title">
+						<h2 class="title">Latest Products</h2>
+					</div>
+				</div>
+				<!-- section title -->
+				{% for produit in products|slice:":4" %}
+				<!-- Product Single -->
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="product product-single">
+						<div class="product-thumb">
+							<div class="product-label">
+								<span>New</span>
+							</div>
+							<img src="{{ produit.image.url }}" alt="" width="270px" height="360px">
+						</div>
+						<div class="product-body">
+							<h3 class="product-price">${{ produit.price }}  <del class="product-old-price">${{ produit.old_price }}</del></h3>
+							<div class="product-rating">
+								{% ifequal 0 produit.rating %}
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 1 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 2 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 3 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 4 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 5 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								{% endifequal %}
+							</div>
+							<h2 style="height: 32px;overflow: hidden;" class="product-name"><a href="/product_detail?prod={{produit.Id}}">{{ produit.name }}</a></h2>
+							<div class="product-btns">
+								<button style="width:23%;" id="prodw3{{produit.Id}}" class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+								<button style="width: 75%" id="product3{{produit.Id}}" class="primary-btn" ><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Product Single -->
+				{% endfor %}
+			</div>
+			<!-- /row -->
+
+			<!-- row -->
+			<div class="row">
+				<!-- banner -->
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="banner banner-2">
+						<img src="{% static 'shop/img/banner15.jpg' %}" alt="">
+						<div class="banner-caption">
+							<h2 class="white-color">Smartphones</h2>
+							<a href="/Products?cat=2"<button class="primary-btn">Shop Now</button></a>
+						</div>
+					</div>
+				</div>
+				<!-- /banner -->
+
+				<!-- Product Single -->
+				{% for produit in Products_cat.3|slice:":3"%}
+
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="product product-single">
+						<div class="product-thumb">
+							<div class="product-label">
+								<span>New</span>
+							</div>
+							<img src="{{ produit.image.url }}" alt="IMG-PRODUCT" width="270px" height="360px" style="object-fit: cover;">
+						</div>
+						<div class="product-body">
+							<h3 class="product-price">${{ produit.price }}  <del class="product-old-price">${{ produit.old_price }}</del></h3>
+							<div class="product-rating">
+								{% ifequal 0 produit.rating %}
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 1 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 2 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 3 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 4 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 5 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								{% endifequal %}
+							</div>
+							<h2 style="height: 32px;overflow: hidden;" class="product-name"><a href="/product_detail?prod={{produit.Id}}">{{ produit.name }}</a></h2>
+							<div class="product-btns">
+								<button style="width: 23%;" id="prodw4{{produit.Id}}" class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+								<button style="width: 75%;" id="product4{{produit.Id}}" class="primary-btn"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Product Single -->
+				{% endfor %}
+			</div>
+			<!-- /row -->
+
+			<!-- row -->
+			<div class="row">
+				<!-- section title -->
+				<div class="col-md-12">
+					<div class="section-title">
+						<h2 class="title">Picked For You</h2>
+					</div>
+				</div>
+				<!-- section title -->
+
+
+{% for produit in rand_products|slice:":4" %}
+				<!-- Product Single -->
+				<div class="col-md-3 col-sm-6 col-xs-6">
+					<div class="product product-single">
+						<div class="product-thumb">
+							<div class="product-label">
+								<span>New</span>
+							</div>
+							<img src="{{ produit.image.url }}" alt="IMG-PRODUCT" width="270px" height="360px" style="object-fit: cover;">
+						</div>
+						<div class="product-body">
+							<h3 class="product-price">${{produit.price}} <del class="product-old-price">${{ produit.old_price }}</del></h3>
+							<div class="product-rating">
+								{% ifequal 0 produit.rating %}
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 1 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 2 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 3 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 4 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 5 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								{% endifequal %}
+							</div>
+							<h2 style="height: 32px;overflow: hidden;" class="product-name"><a href="/product_detail?prod={{produit.Id}}">{{ produit.name }}</a></h2>
+							<div class="product-btns">
+								<button style="width: 23%;" id="prodw5{{produit.Id}}" class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+								<button style="width: 75%" id="product5{{produit.Id}}" class="primary-btn" ><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /Product Single -->
+{% endfor %}
+
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+	<style media="screen">
+
+		.modal-dialog {
+    padding-top: 10%;
+	}
+		.btn-cool{
+			border: 3px solid #C54038;
+			background-color: #FFF;
+			border-radius: 0px;
+			color: #C54038;
+			padding: 10px 15px;
+			text-transform: uppercase;
+			font-weight: 700;
+		}
+		.btn-cool:hover{
+			background-color: #C54038;
+			color: #FFF;
+		}
+	</style>
+	{% endblock %}
+	{% block JsScripts %}
+
+	<script>
+	{% for produit in rand_products %}
+
+			$('#product1{{produit.Id}}').click(function (){
+					var prod = {{produit.Id}}
+					$.ajax({ type: "GET",
+									 url: "{% url 'add_to_cart' %}",
+									 data:{prod} });
+				 const el = document.createElement('div')
+				 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/cart'><button class='primary-btn'>Go to cart!</button></a>"
+				 swal({
+					 title: "{{produit.name}}",
+					 text: "is added to cart!",
+					 icon: "success",
+					 content: el,
+					 button: false,
+				 });
+				});
+
+				$('#product2{{produit.Id}}').click(function (){
+						var prod = {{produit.Id}}
+						$.ajax({ type: "GET",
+										 url: "{% url 'add_to_cart' %}",
+										 data:{prod} });
+					 const el = document.createElement('div')
+					 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/cart'><button class='primary-btn'>Go to cart!</button></a>"
+					 swal({
+						 title: "{{produit.name}}",
+						 text: "is added to cart!",
+						 icon: "success",
+						 content: el,
+						 button: false,
+					 });
+					});
+
+				$('#product3{{produit.Id}}').click(function (){
+						var prod = {{produit.Id}}
+						$.ajax({ type: "GET",
+										 url: "{% url 'add_to_cart' %}",
+										 data:{prod} });
+					 const el = document.createElement('div')
+					 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/cart'><button class='primary-btn'>Go to cart!</button></a>"
+					 swal({
+						 title: "{{produit.name}}",
+						 text: "is added to cart!",
+						 icon: "success",
+						 content: el,
+						 button: false,
+					 });
+					});
+
+					$('#product4{{produit.Id}}').click(function (){
+							var prod = {{produit.Id}}
+							$.ajax({ type: "GET",
+											 url: "{% url 'add_to_cart' %}",
+											 data:{prod} });
+						 const el = document.createElement('div')
+						 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/cart'><button class='primary-btn'>Go to cart!</button></a>"
+						 swal({
+							 title: "{{produit.name}}",
+							 text: "is added to cart!",
+							 icon: "success",
+							 content: el,
+							 button: false,
+						 });
+						});
+
+				$('#product5{{produit.Id}}').click(function (){
+						var prod = {{produit.Id}}
+						$.ajax({ type: "GET",
+										 url: "{% url 'add_to_cart' %}",
+										 data:{prod} });
+						 const el = document.createElement('div')
+						 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/cart'><button class='primary-btn'>Go to cart!</button></a>"
+						 swal({
+							 title: "{{produit.name}}",
+							 text: "is added to cart!",
+							 icon: "success",
+							 content: el,
+							 button: false,
+						 });
+	 				 });
+
+						$('#prodw1{{produit.Id}}').click(function (){
+								var prod = {{produit.Id}}
+								$.ajax({ type: "GET",
+												 url: "{% url 'add_to_wishlist' %}",
+												 data:{prod} });
+							 const el = document.createElement('div')
+							 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/myaccount'><button class='primary-btn'>Go to wishlist!</button></a>"
+							 swal({
+								 title: "{{produit.name}}",
+								 text: "is added to cart!",
+								 icon: "success",
+								 content: el,
+								 button: false,
+							 });
+							});
+
+							$('#prodw2{{produit.Id}}').click(function (){
+									var prod = {{produit.Id}}
+									$.ajax({ type: "GET",
+													 url: "{% url 'add_to_wishlist' %}",
+													 data:{prod} });
+								 const el = document.createElement('div')
+								 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/myaccount'><button class='primary-btn'>Go to wishlist!</button></a>"
+								 swal({
+									 title: "{{produit.name}}",
+									 text: "is added to wishlist!",
+									 icon: "success",
+									 content: el,
+									 button: false,
+								 });
+								});
+
+							$('#prodw3{{produit.Id}}').click(function (){
+									var prod = {{produit.Id}}
+									$.ajax({ type: "GET",
+													 url: "{% url 'add_to_wishlist' %}",
+													 data:{prod} });
+								 const el = document.createElement('div')
+								 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/myaccount'><button class='primary-btn'>Go to wishlist!</button></a>"
+								 swal({
+									 title: "{{produit.name}}",
+									 text: "is added to wishlist!",
+									 icon: "success",
+									 content: el,
+									 button: false,
+								 });
+								});
+
+							$('#prodw5{{produit.Id}}').click(function (){
+									var prod = {{produit.Id}}
+									$.ajax({ type: "GET",
+													 url: "{% url 'add_to_wishlist' %}",
+													 data:{prod} });
+									 const el = document.createElement('div')
+									 el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/myaccount'><button class='primary-btn'>Go to wishlist!</button></a>"
+									 swal({
+										 title: "{{produit.name}}",
+										 text: "is added to wishlist!",
+										 icon: "success",
+										 content: el,
+										 button: false,
+									 });
+								 });
+
+								$('#prodw4{{produit.Id}}').click(function (){
+										var prod = {{produit.Id}}
+										$.ajax({
+											type: "GET",
+											url: "{% url 'add_to_wishlist' %}",
+											data:{prod}
+										});
+										const el = document.createElement('div')
+										el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/myaccount'><button class='primary-btn'>Go to wishlist!</button></a>"
+										swal({
+											title: "{{produit.name}}",
+											text: "is added to wishlist!",
+											icon: "success",
+											content: el,
+											button: false,
+										});
+
+									});
+	{% endfor %}
+
+</script>
+
+	{% endblock %}

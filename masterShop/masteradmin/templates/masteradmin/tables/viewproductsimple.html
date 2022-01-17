@@ -1,0 +1,82 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% block header %}
+    <title>Products by category</title>
+{% endblock %}
+{% block content %}
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>View products per category</h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Simple</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      {% if productbycategory|length != 0 %}
+      <div class="row">
+        {% for key,val in productbycategory.items %}
+        {% if key|length != 0 %}
+        <div class="col-md-6">
+
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">{{key}}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body" style="height: 230px; overflow: scroll;">
+              <table class="table table-bordered">
+                <tr>
+                  <th style="width: 10px">ID</th>
+                  <th>Product Name</th>
+                  <th>Views</th>
+                  <th style="width: 40px">Rate</th>
+                </tr>
+                {% for prod in val %}
+                <tr>
+                  <td>{{prod.Id}}</td>
+                  <td>{{prod.name}}</td>
+                  <td>{{prod.views}}</td>
+                  {% if prod.rating <= 1.25 %}
+                    <td><span class="badge bg-red">{{prod.rating}}</span></td>
+                  {% elif 1.25 < prod.rating and prod.rating <= 2.5 %}
+                    <td><span class="badge bg-light-blue">{{prod.rating}}</span></td>
+                  {% elif 2.5 < prod.rating and prod.rating <= 3.75 %}
+                    <td><span class="badge bg-yellow">{{prod.rating}}</span></td>
+                  {% elif 3.75 < prod.rating and prod.rating <= 5 %}
+                    <td><span class="badge bg-green">{{prod.rating}}</span></td>
+                  {% else %}
+                  <td><span class="badge">{{prod.rating}}</span></td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <!-- /.col -->
+      </div>
+
+      {% else %}
+      <img src="{% static '/images/noproductfoundc.png' %}" alt="Product Image" style="
+                display: block;margin-left: auto;margin-right: auto;width: 30%;">
+      {% endif %}
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <div class="control-sidebar-bg"></div>
+{% endblock %}
+
+{% block JsScripts %}
+  <script type="text/javascript">
+    //$("#progressbar").css('width', 55+"%");
+  </script>
+{% endblock %}

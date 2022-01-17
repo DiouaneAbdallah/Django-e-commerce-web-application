@@ -1,0 +1,232 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% load myfilter %}
+
+{% block header %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Widgets</title>
+  {% endblock %}
+
+{% block content %}
+
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Mailbox
+        <small>{{newmessages|length}} new messages</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li>Mailbox</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-3">
+          <a href="/mailbox/compose" class="btn btn-primary btn-block margin-bottom">Compose</a>
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">Folders</h3>
+              <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body no-padding">
+              <ul class="nav nav-pills nav-stacked">
+                <li><a href="/mailbox/mailbox"><i class="fa fa-inbox"></i> Inbox
+                  <span class="label label-primary pull-right">{{messages|length}}</span></a></li>
+                <li class="active"><a href="/mailbox/sent"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                <li><a href="/mailbox/draft"><i class="fa fa-file-text-o"></i> Drafts</a></li>
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Sent</h3>
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <a href="/mailbox/mailbox">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                </a>
+
+                <div class="pagination">
+                    <span class="step-links">
+                      {% if msg.has_previous %}
+                        <a href="?page=1">
+                          <button type="button" class="btn btn-default btn-sm" id="pagedown"><i class="fa fa-chevron-circle-left"></i>
+                          </button>
+                        </a>
+                        <a href="?page={{ msg.previous_page_number }}">
+                          <button type="button" class="btn btn-default btn-sm" id="pagedown"><i class="fa fa-chevron-left"></i>
+                          </button>
+                        </a>
+                      {% endif %}
+                      <span class="current">Page {{ msg.number }} of {{ msg.paginator.num_pages }}.</span>
+                      {% if msg.has_next %}
+                        <a href="?page={{ msg.next_page_number }}">
+                          <button type="button" class="btn btn-default btn-sm" id="pageup">
+                            <i class="fa fa-chevron-right"></i>
+                          </button>
+                        </a>
+                        <a href="?page={{ msg.paginator.num_pages }}">
+                          <button type="button" class="btn btn-default btn-sm" id="pagedown">
+                            <i class="fa fa-chevron-circle-right"></i>
+                          </button>
+                        </a>
+                      {% endif %}
+                    </span>
+                </div>
+                <!-- /.pull-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tbody>
+                    {% for message in msg %}
+                  <tr>
+                    <td><input type="checkbox"></td>
+                    {% if message.profile.user.is_superuser %}
+                      <td class="mailbox-star"><i class="fa fa-star text-yellow"></i></td>
+                      <td class="mailbox-name"><a href="/mailbox/read-mail?lemessage={{message.Id}}">{{message.profile.user.username}}</a></td>
+                    {% elif message.profile.is_seller %}
+                      <td class="mailbox-star"><i class="fa fa-star-o text-yellow"></td>
+                      <td class="mailbox-name"><a href="/mailbox/read-mail?lemessage={{message.Id}}">{{message.profile.user.username}}</a></td>
+                    {% else %}
+                      <td class="mailbox-star"><i class="fa fa-star-o text-blue"></i></td>
+                      <td class="mailbox-name"><a href="/mailbox/read-mail?lemessage={{message.Id}}">{{message.fullname}}</a></td>
+                    {% endif %}
+                    <td class="mailbox-subject"><b>{{message.subject}}</b> - {{message.content|striptags|truncatewords:8}}</td>
+                    <td class="mailbox-date"> {{message.date_created|timesince|upto:','}} ago </td>
+                  </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+                </div>
+                <!-- /.btn-group -->
+                <a href="/mailbox/mailbox">
+                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                </a>
+                <div class="pagination">
+                    <span class="step-links">
+                      {% if msg.has_previous %}
+                        <a href="?page=1">
+                          <button type="button" class="btn btn-default btn-sm" id="pagedown"><i class="fa fa-chevron-circle-left"></i>
+                          </button>
+                        </a>
+                        <a href="?page={{ msg.previous_page_number }}">
+                          <button type="button" class="btn btn-default btn-sm" id="pagedown"><i class="fa fa-chevron-left"></i>
+                          </button>
+                        </a>
+                      {% endif %}
+                      <span class="current">Page {{ msg.number }} of {{ msg.paginator.num_pages }}.</span>
+                      {% if msg.has_next %}
+                        <a href="?page={{ msg.next_page_number }}">
+                          <button type="button" class="btn btn-default btn-sm" id="pageup">
+                            <i class="fa fa-chevron-right"></i>
+                          </button>
+                        </a>
+                        <a href="?page={{ msg.paginator.num_pages }}">
+                          <button type="button" class="btn btn-default btn-sm" id="pagedown">
+                            <i class="fa fa-chevron-circle-right"></i>
+                          </button>
+                        </a>
+                      {% endif %}
+                    </span>
+                </div>
+                <!-- /.pull-right -->
+              </div>
+            </div>
+          </div>
+          <!-- /. box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  
+       {% endblock %}
+  <div class="control-sidebar-bg"></div>
+</div>
+{% block JsScripts %}
+
+<!-- Page Script -->
+<script>
+
+  $(function () {
+    //Enable iCheck plugin for checkboxes
+    //iCheck for checkbox and radio inputs
+    $('.mailbox-messages input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_flat-blue',
+      radioClass: 'iradio_flat-blue'
+    });
+
+    //Enable check and uncheck all functionality
+    $(".checkbox-toggle").click(function () {
+      var clicks = $(this).data('clicks');
+      if (clicks) {
+        //Uncheck all checkboxes
+        $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+        $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+      } else {
+        //Check all checkboxes
+        $(".mailbox-messages input[type='checkbox']").iCheck("check");
+        $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+      }
+      $(this).data("clicks", !clicks);
+    });
+
+    //Handle starring for glyphicon and font awesome
+    $(".mailbox-star").click(function (e) {
+      e.preventDefault();
+      //detect type
+      var $this = $(this).find("a > i");
+      var glyph = $this.hasClass("glyphicon");
+      var fa = $this.hasClass("fa");
+
+      //Switch states
+      if (glyph) {
+        $this.toggleClass("glyphicon-star");
+        $this.toggleClass("glyphicon-star-empty");
+      }
+
+      if (fa) {
+        $this.toggleClass("fa-star");
+        $this.toggleClass("fa-star-o");
+      }
+    });
+  });
+</script>
+
+{% endblock %}

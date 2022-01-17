@@ -1,0 +1,66 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% load myfilter %}
+{% block header %}
+  <title>Categories</title>
+{% endblock %}
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        Categories Outlook
+        <small>preview of the existing categories</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> Dashboard</li>
+        <li>Categories</li>
+        <li>View categories</li>
+      </ol>
+    </section>
+    <section class="content">
+      {% if categories|length != 0 %}
+      <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Categories</h3>
+            </div>
+            <div class="box-body">
+              <table class="table table-bordered">
+                <tr>
+                  <th style="width: auto">ID</th>
+                  <th style="width: auto">Category name</th>
+                  <th style="width: 40%"></th>
+                  <th style="width: 20%;text-align:center;">Number of products</th>
+                </tr>
+                {% for category,lengthcat in catlen.items %}
+                <tr>
+                  <td>{{category.Id}}</td>
+                  <td>{{category.name}}</td>
+                  <td>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" style="width: {{lengthcat}}%" aria-valuenow="{{lengthcat}}" aria-valuemin="0" aria-valuemax="60"></div>
+                    </div>
+                  </td>
+                  <td style="text-align:center;"><span class="badge bg-green">{{lengthcat}}</span></td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+          </div>
+          {% else %}
+          <img src="{% static '/img/no_results_found.png' %}" alt="Product Image" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
+        {% endif %}
+    </section>
+  </div>
+  <div class="control-sidebar-bg"></div>
+{% endblock %}
+
+{% block JsScripts %}
+  <script type="text/javascript">
+    //$("#progressbar").css('width', 55+"%");
+  </script>
+{% endblock %}

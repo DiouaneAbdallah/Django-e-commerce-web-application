@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load myfilter %}
+{% block header %}
+
+<title>Checkout</title>
+<style media="screen">
+	.order-details li {
+    display: table-cell;
+    font-size: 15px;
+    color: #999;
+    width: 1%;
+}
+.order-details {
+    display: table;
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+    margin: 30px 0 20px;
+}
+.order-details li strong {
+    display: block;
+    font-size: 18px;
+    text-transform: none;
+    font-weight: 700;
+    margin-top: 10px;
+    color: #323237;
+}
+.box {
+    border: 2px solid #eee;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.box .title {
+    margin-top: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.box .table {
+    margin-bottom: 0;
+}
+#thank{
+	padding: 15px;
+	color: #ffffff;
+ 	background-color: #C54038;
+	margin-bottom: 20px;
+	font-size: larger;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% include "shop/navigation2.html" %}
+
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="thank">Thank you, Your order has been received.</div>
+					<ul class="order-details">
+							<li>
+									Order Number: <strong>{{order.id}}</strong>
+							</li>
+							<li>
+									Date: <strong>{{order.Order_date}}</strong>
+							</li>
+							<li>
+									Total: <strong><span class="amount">${{order.total_price}}</span></strong>
+							</li>
+							<li>
+									Payment Method: <strong>{{order.payment}}</strong>
+							</li>
+					</ul><!-- /.order-details -->
+
+					<div class="box table-responsive">
+							<h3 class="title">Order Details</h3>
+							<table class="table cart-table order-details-table">
+									<thead>
+											<tr>
+													<th class="product-name">Product</th>
+													<th class="product-total">Total</th>
+											</tr>
+									</thead>
+									<tbody>
+										{% for dict in OrderDictio %}
+											{% for produit in dict.0 %}
+											<tr class="item">
+													<td class="product-name">
+															<a href="product.html">{{produit.name}}</a> <strong class="product-quantity">× {{dict.1.quantity}}</strong> </td>
+													<td class="product-total">
+															<span class="amount">${{dict.1.quantity|multiply:produit.price }}</span>
+													</td>
+											</tr>
+											{% endfor %}
+										{% endfor %}
+									</tbody>
+							</table>
+							<table class="table cart-table order-details-table" style="margin-top:30px;width:50%;align:right;background-color: #DADADA;">
+								<tr>
+										<th scope="row">Subtotal:</th>
+										<td><span class="amount" id="subtotal_value">$540.00</span></td>
+								</tr>
+								<tr>
+										<th scope="row">Shipping:</th>
+										<td>{{order.shipping}}</td>
+								</tr>
+								<tr>
+										<th scope="row">Total:</th>
+										<td><span class="amount" id="total_value">${{order.total_price}}</span></td>
+								</tr>
+							</table>
+					</div><!-- /.box -->
+					<div class="text-right">
+						<a href="/" class="primary-btn">Go Back</a>
+					</div>
+				</div>
+			</div><!-- /.row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+{% endblock %}
+{% block JsScripts %}
+<script type="text/javascript">
+	var Total = 0;
+	{% for dict in OrderDictio %}
+		{% for produit in dict.0 %}
+			 Total = Total + {{produit.price}} * 	{{dict.1.quantity}} ;
+		{% endfor %}
+	{% endfor %}
+	$('#subtotal_value').text( '$ '+Total );
+
+</script>
+{% endblock %}

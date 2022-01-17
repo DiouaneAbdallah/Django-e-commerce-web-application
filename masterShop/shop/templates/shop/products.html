@@ -1,0 +1,404 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<title>Products</title>
+{% endblock %}
+{% block content %}
+
+{% include "shop/navigation2.html" %}
+
+
+
+<!-- section -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<!-- ASIDE -->
+			<div id="aside" class="col-md-3">
+
+				{% if request.GET|length != 0 %}
+				<div class="aside">
+					<h3 class="aside-title">Shop by:</h3>
+					{% for key,value in request.GET.items %}
+						<ul class="filter-list">
+
+						{% ifequal key 'cat' %}
+							<li><span class="text-uppercase">Category :</span></li>
+							{% for category in categories %}
+								{% ifequal value category.Id|slugify %}
+									<li><a>{{category}}</a></li>
+								{% endifequal %}
+							{% endfor %}
+						{% endifequal %}
+
+						{% ifequal key 'manu' %}
+							<li><span class="text-uppercase">manufacturer :</span></li>
+							<li><a>{{value}}</a></li>
+						{% endifequal %}
+						{% ifequal key 'key' %}
+							<li><span class="text-uppercase">Keywords :</span></li>
+							<li><a>{{value}}</a></li>
+						{% endifequal %}
+						{% ifequal key 'min' %}
+							<li><span class="text-uppercase">Price Min:</span></li>
+							<li><a>${{value}}</a></li>
+						{% endifequal %}
+						{% ifequal key 'max' %}
+							<li><span class="text-uppercase">Price Max:</span></li>
+							<li><a>${{value}}</a></li>
+						{% endifequal %}
+						{% ifequal key 'sort' %}
+							<li><span class="text-uppercase">Sort by :</span></li>
+							{% if 'price' == value|slugify or '-price' == value|slugify %}
+								<li><a>Price</a></li>
+							{% endif %}
+							{% if 'views' == value|slugify or '-views' == value|slugify %}
+								<li><a>Views</a></li>
+							{% endif %}
+							{% if 'date_created' == value|slugify or '-date_created' == value|slugify %}
+								<li><a>Date</a></li>
+							{% endif %}
+							{% if 'rating' == value|slugify or '-rating' == value|slugify %}
+								<li><a>Rating</a></li>
+							{% endif %}
+						{% endifequal %}
+
+						</ul>
+					{% endfor %}
+					<a href="/products"><button class="primary-btn">Clear All</button></a>
+				</div>
+			{% endif %}
+				<!-- aside widget -->
+				<div class="aside">
+					<h3 class="aside-title">Filter By Category:</h3>
+					<ul class="list-links">
+						{% for category in categories %}
+							<a href="?cat={{category.Id}}{% for key,value in request.GET.items %}{% ifnotequal key 'cat' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><button style="padding: 5px;margin-bottom: 3px;" class="primary-btn">{{category}}</button></a>
+						{% endfor %}
+					</ul>
+				</div>
+				<!-- /aside widget -->
+
+
+				<!-- aside widget -->
+				<div class="aside">
+					<h3 class="aside-title">Filter by Price</h3>
+					<ul>
+						<li><i style="padding:6px;" class="fa fa-chevron-circle-right"></i>
+							<a style="font-size: medium;" href="?{% if 'min' not in request.GET %}min=0&max=50{% for key,value in request.GET.items %}&{{ key }}={{ value }}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'min' %}&{{ key }}=0{% endifequal %}{% ifequal key 'max' %}&{{ key }}=50{% endifequal %}{% ifnotequal key 'max' %}{% ifnotequal key 'min' %}&{{ key }}={{ value }}{% endifnotequal %}{% endifnotequal %}{% endfor %}{% endif %}">less than $50</a>
+						</li>
+						<li><i style="padding:6px;" class="fa fa-chevron-circle-right"></i>
+							<a style="font-size: medium;" href="?{% if 'min' not in request.GET %}min=51&max=150{% for key,value in request.GET.items %}&{{ key }}={{ value }}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'min' %}&{{ key }}=51{% endifequal %}{% ifequal key 'max' %}&{{ key }}=150{% endifequal %}{% ifnotequal key 'max' %}{% ifnotequal key 'min' %}&{{ key }}={{ value }}{% endifnotequal %}{% endifnotequal %}{% endfor %}{% endif %}">$50 - $150</a>
+						</li>
+						<li><i style="padding:6px;" class="fa fa-chevron-circle-right"></i>
+							<a style="font-size: medium;" href="?{% if 'min' not in request.GET %}min=151&max=500{% for key,value in request.GET.items %}&{{ key }}={{ value }}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'min' %}&{{ key }}=151{% endifequal %}{% ifequal key 'max' %}&{{ key }}=500{% endifequal %}{% ifnotequal key 'max' %}{% ifnotequal key 'min' %}&{{ key }}={{ value }}{% endifnotequal %}{% endifnotequal %}{% endfor %}{% endif %}">$150 - $500</a>
+						</li>
+						<li><i style="padding:6px;" class="fa fa-chevron-circle-right"></i>
+							<a style="font-size: medium;" href="?{% if 'min' not in request.GET %}min=501&max=1000{% for key,value in request.GET.items %}&{{ key }}={{ value }}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'min' %}&{{ key }}=501{% endifequal %}{% ifequal key 'max' %}&{{ key }}=1000{% endifequal %}{% ifnotequal key 'max' %}{% ifnotequal key 'min' %}&{{ key }}={{ value }}{% endifnotequal %}{% endifnotequal %}{% endfor %}{% endif %}">$500 - $1000</a>
+						</li>
+						<li><i style="padding:6px;" class="fa fa-chevron-circle-right"></i>
+							<a style="font-size: medium;" href="?{% if 'min' not in request.GET %}min=1001&max=20000{% for key,value in request.GET.items %}&{{ key }}={{ value }}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'min' %}&{{ key }}=1001{% endifequal %}{% ifequal key 'max' %}&{{ key }}=20000{% endifequal %}{% ifnotequal key 'max' %}{% ifnotequal key 'min' %}&{{ key }}={{ value }}{% endifnotequal %}{% endifnotequal %}{% endfor %}{% endif %}">more than $1000</a>
+						</li>
+					</ul>
+				</div>
+				<!-- aside widget -->
+
+
+				<!-- aside widget -->
+				<div class="aside">
+					<h3 class="aside-title">Filter by Manufacturer</h3>
+					{% for brand in brands%}
+						<a href="?manu={{brand}}{% for key,value in request.GET.items %}{% ifnotequal key 'manu' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><button style="padding: 5px;margin-bottom: 3px;" class="primary-btn">{{brand}}</button></a>
+					{% endfor %}
+				</div>
+				<!-- /aside widget -->
+
+
+				<!-- aside widget -->
+				<div class="aside">
+					<h3 class="aside-title">Top Rated Product</h3>
+					{% for produit in topProducts %}
+					<!-- widget product -->
+					<div class="product product-widget">
+						<div class="product-thumb">
+							<img src="{{ produit.image.url }}" alt="">
+						</div>
+						<div class="product-body">
+							<h2 class="product-name"><a href="/product_detail?prod={{produit.Id}}">{{ produit.name }}</a></h2>
+							<h3 class="product-price">${{ produit.price }} <del class="product-old-price">${{ produit.old_price }}</del></h3>
+							<div class="product-rating">
+								{% ifequal 0 produit.rating %}
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 1 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 2 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 3 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 4 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 5 produit.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								{% endifequal %}
+							</div>
+						</div>
+					</div>
+					<!-- /widget product -->
+					{% endfor %}
+
+				</div>
+				<!-- /aside widget -->
+			</div>
+			<!-- /ASIDE -->
+
+			<!-- MAIN -->
+			<div id="main" class="col-md-9">
+				<!-- store top filter -->
+				{% if produits|length != 0 %}
+				<div class="store-filter clearfix">
+					<div class="pull-left">
+
+						<div class="sort-filter">
+							<span class="text-uppercase">Sort By :</span>
+							<a href="/products/?{% if 'sort' not in request.GET %}sort=price{% for key,value in request.GET.items %}{% ifnotequal key 'sort' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'sort' %}{% ifequal value '-price' %}&sort=price{% else %}&sort=-price{% endifequal %}{% else %}&{{ key }}={{ value }}{% endifequal %}{% endfor %}{% endif %}" style="width: fit-content;padding-left: 6px;" class="main-btn icon-btn">Price<i class="fa fa-sort" style=" padding: 6px; "></i></a>
+							<a href="/products/?{% if 'sort' not in request.GET %}sort=rating{% for key,value in request.GET.items %}{% ifnotequal key 'sort' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'sort' %}{% ifequal value '-rating' %}&sort=rating{% else %}&sort=-rating{% endifequal %}{% else %}&{{ key }}={{ value }}{% endifequal %}{% endfor %}{% endif %}" style="width: fit-content;padding-left: 6px;" class="main-btn icon-btn">Rating<i class="fa fa-sort" style=" padding: 6px; "></i></a>
+							<a href="/products/?{% if 'sort' not in request.GET %}sort=views{% for key,value in request.GET.items %}{% ifnotequal key 'sort' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'sort' %}{% ifequal value '-views' %}&sort=views{% else %}&sort=-views{% endifequal %}{% else %}&{{ key }}={{ value }}{% endifequal %}{% endfor %}{% endif %}" style="width: fit-content;padding-left: 6px;" class="main-btn icon-btn">Views<i class="fa fa-sort" style=" padding: 6px; "></i></a>
+							<a href="/products/?{% if 'sort' not in request.GET %}sort=date_created{% for key,value in request.GET.items %}{% ifnotequal key 'sort' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'sort' %}{% ifequal value '-date_created' %}&sort=date_created{% else %}&sort=-date_created{% endifequal %}{% else %}&{{ key }}={{ value }}{% endifequal %}{% endfor %}{% endif %}" style="width: fit-content;padding-left: 6px;" class="main-btn icon-btn">Date<i class="fa fa-sort" style=" padding: 6px; "></i></a>
+						</div>
+
+					</div>
+					<div class="pull-right" style=" padding: 12px; ">
+						Showing {{produits.start_index}}–{{produits.end_index}} of {{produits.paginator.count}} results
+						{% if produits.has_other_pages %}
+							<ul class="store-pages">
+								<li><span class="text-uppercase">Page:</span></li>
+								{% if produits.has_previous %}
+									<li><a class="item-pagination flex-c-m trans-0-4" href="?page={{ produits.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><i class="fa fa-caret-left"></i></a></li>
+								{% else %}
+									<li><a class="item-pagination flex-c-m trans-0-4" class="disabled"><span><i class="fa fa-caret-left"></i></span></a></li>
+								{% endif %}
+								{% for i in produits.paginator.page_range %}
+									{% if produits.number == i %}
+										<li><span class="item-pagination flex-c-m trans-0-4 active-pagination">{{ i }} <span class="sr-only">(current)</span></span></li>
+									{% else %}
+										<li><a class="item-pagination flex-c-m trans-0-4" href="?page={{ i }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ i }}</a></li>
+									{% endif %}
+								{% endfor %}
+								{% if produits.has_next %}
+									<li><a class="item-pagination flex-c-m trans-0-4" href="?page={{ produits.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><i class="fa fa-caret-right"></i></a></li>
+								{% else %}
+									<li><span class="item-pagination flex-c-m trans-0-4"><i class="fa fa-caret-right"></i></span>
+								{% endif %}
+							</ul>
+						{% endif %}
+					</div>
+				</div>
+				<!-- /store top filter -->
+
+				<!-- STORE -->
+				<div id="store">
+					<!-- row -->
+					<div class="row">
+						{% for produit in produits %}
+						<!-- Product Single -->
+						<div class="col-md-4 col-sm-6 col-xs-6">
+							<div class="product product-single">
+								<div class="product-thumb">
+									<img src="{{ produit.image.url }}" alt="" width="270px" height="360px" style=" object-fit: cover; ">
+								</div>
+								<div class="product-body">
+									<h3 class="product-price">${{ produit.price }} <del class="product-old-price">${{ produit.old_price }}</del></h3>
+									<div class="product-rating">
+										{% ifequal 0 produit.rating %}
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 1 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 2 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 3 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 4 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star-o empty"></i>
+										{% endifequal %}
+										{% ifequal 5 produit.rating %}
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										<i class="fa fa-star"></i>
+										{% endifequal %}
+									</div>
+									<h2 style="height: 32px;overflow: hidden;" class="product-name"><a href="/product_detail?prod={{produit.Id}}">{{ produit.name }}</a></h2>
+									<div class="product-btns">
+										<button style="width:23%;" id="prodw{{produit.Id}}" class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
+										{% if produit.piecesStock == 0 %}
+										<button disabled class="primary-btn prod{{produit.Id}}" style="width: 75%"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+										{% else %}
+										<button class="primary-btn prod{{produit.Id}}" style="width: 75%"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+										{% endif %}
+									</div>
+									</div>
+							</div>
+						</div>
+						<!-- /Product Single -->
+						{% endfor %}
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /STORE -->
+
+				<!-- store bottom filter -->
+				<div class="store-filter clearfix">
+					<div class="pull-left">
+
+						<div class="sort-filter">
+							<span class="text-uppercase">Sort By :</span>
+							<a href="/products/?{% if 'sort' not in request.GET %}sort=price{% for key,value in request.GET.items %}{% ifnotequal key 'sort' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'sort' %}{% ifequal value '-price' %}&sort=price{% else %}&sort=-price{% endifequal %}{% else %}&{{ key }}={{ value }}{% endifequal %}{% endfor %}{% endif %}" style="width: fit-content;padding-left: 6px;" class="main-btn icon-btn">Price<i class="fa fa-sort" style=" padding: 6px; "></i></a>
+							<a href="/products/?{% if 'sort' not in request.GET %}sort=rating{% for key,value in request.GET.items %}{% ifnotequal key 'sort' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'sort' %}{% ifequal value '-rating' %}&sort=rating{% else %}&sort=-rating{% endifequal %}{% else %}&{{ key }}={{ value }}{% endifequal %}{% endfor %}{% endif %}" style="width: fit-content;padding-left: 6px;" class="main-btn icon-btn">Rating<i class="fa fa-sort" style=" padding: 6px; "></i></a>
+							<a href="/products/?{% if 'sort' not in request.GET %}sort=views{% for key,value in request.GET.items %}{% ifnotequal key 'sort' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'sort' %}{% ifequal value '-views' %}&sort=views{% else %}&sort=-views{% endifequal %}{% else %}&{{ key }}={{ value }}{% endifequal %}{% endfor %}{% endif %}" style="width: fit-content;padding-left: 6px;" class="main-btn icon-btn">Views<i class="fa fa-sort" style=" padding: 6px; "></i></a>
+							<a href="/products/?{% if 'sort' not in request.GET %}sort=date_created{% for key,value in request.GET.items %}{% ifnotequal key 'sort' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}{% else %}{% for key,value in request.GET.items %}{% ifequal key 'sort' %}{% ifequal value '-date_created' %}&sort=date_created{% else %}&sort=-date_created{% endifequal %}{% else %}&{{ key }}={{ value }}{% endifequal %}{% endfor %}{% endif %}" style="width: fit-content;padding-left: 6px;" class="main-btn icon-btn">Date<i class="fa fa-sort" style=" padding: 6px; "></i></a>
+						</div>
+
+					</div>
+					<div class="pull-right" style=" padding: 12px; ">
+						Showing {{produits.start_index}}–{{produits.end_index}} of {{produits.paginator.count}} results
+						{% if produits.has_other_pages %}
+							<ul class="store-pages">
+								<li><span class="text-uppercase">Page:</span></li>
+								{% if produits.has_previous %}
+									<li><a class="item-pagination flex-c-m trans-0-4" href="?page={{ produits.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><i class="fa fa-caret-left"></i></a></li>
+								{% else %}
+									<li><a class="item-pagination flex-c-m trans-0-4" class="disabled"><span><i class="fa fa-caret-left"></i></span></a></li>
+								{% endif %}
+								{% for i in produits.paginator.page_range %}
+									{% if produits.number == i %}
+										<li><span class="item-pagination flex-c-m trans-0-4 active-pagination">{{ i }} <span class="sr-only">(current)</span></span></li>
+									{% else %}
+										<li><a class="item-pagination flex-c-m trans-0-4" href="?page={{ i }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ i }}</a></li>
+									{% endif %}
+								{% endfor %}
+								{% if produits.has_next %}
+									<li><a class="item-pagination flex-c-m trans-0-4" href="?page={{ produits.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><i class="fa fa-caret-right"></i></a></li>
+								{% else %}
+									<li><span class="item-pagination flex-c-m trans-0-4"><i class="fa fa-caret-right"></i></span>
+								{% endif %}
+							</ul>
+						{% endif %}
+					</div>
+				</div>
+				<!-- /store bottom filter -->
+				{% else %}
+				<div class="trans-0-4 m-t-10" style="text-align: center">
+					<img style="width: 70%;" src="{% static 'img/no_results_found.png'%}">
+				</div>
+				{% endif %}
+			</div>
+			<!-- /MAIN -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock %}
+{% block JsScripts%}
+<script type="text/javascript">
+	{% for produ in produits %}
+			$('.prod{{produ.Id}}').click(function (){
+				var prod = {{produ.Id}}
+				$.ajax({
+							type: "GET",
+							url: "{% url 'add_to_cart' %}",
+							data:{prod}
+				});
+				const el = document.createElement('div')
+				el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/cart'><button class='primary-btn'>Go to cart!</button></a>"
+				swal({
+					title: "{{produ.name}}",
+					text: "is added to cart!",
+					icon: "success",
+					content: el,
+					button: false,
+				});
+		});
+
+		$('#prodw{{produ.Id}}').click(function (){
+				var prod = {{produ.Id}}
+				$.ajax({
+					type: "GET",
+					url: "{% url 'add_to_wishlist' %}",
+					data:{prod}
+				});
+				const el = document.createElement('div')
+				el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/myaccount'><button class='primary-btn'>Go to wishlist!</button></a>"
+				swal({
+					title: "{{produ.name}}",
+					text: "is added to wishlist!",
+					icon: "success",
+					content: el,
+					button: false,
+				});
+
+			});
+
+	{% endfor %}
+</script>
+
+{% endblock%}

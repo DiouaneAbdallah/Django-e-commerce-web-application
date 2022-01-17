@@ -1,0 +1,105 @@
+{% extends 'sellerbase.html' %}
+{% load static %}
+{% load myfilter %}
+
+  {% block header %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Simple Tables</title>
+  {% endblock %}
+
+    <!-- /.sidebar -->
+{% block content %}  <!-- Content Wrapper. Contains page content -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Categories Outlook
+        <small>preview of the existing categories</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> Dashboard</li>
+        <li>Categories</li>
+        <li>View categories</li>
+        <li class="active">General look</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+              
+      <div class="row">
+        <div class="col-md-9">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">Categories</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table class="table table-bordered">
+                <tr>
+                  <th style="width: auto">ID</th>
+                  <th style="width: auto">Category</th>
+                  <th style="width: auto">Popularity</th>
+                  <th style="width: 100px;">Number of products</th>
+                </tr>
+                {% for category,lengthcat in catlen.items %}
+                <tr>
+                  <td>{{category.Id}}</td>
+                  <td>{{category.name}}</td>
+                  <td>
+                    <div class="progress progress-xs">
+                  {% if lengthcat|div:prodlength <= 0.25 %}
+                    <div class="progress-bar progress-bar-danger" style="width: {{lengthcat|div:prodlength|multiply:100}}%"></div>
+                    {% elif 0.25 < lengthcat|div:prodlength and lengthcat|div:prodlength <= 0.50 %}
+                      <div class="progress-bar progress-bar-primary" style="width: {{lengthcat|div:prodlength|multiply:100}}%"></div>
+                    {% elif 0.50 < lengthcat|div:prodlength and lengthcat|div:prodlength <= 0.75 %}
+                      <div class="progress-bar progress-bar-yellow" style="width: {{lengthcat|div:prodlength|multiply:100}}%"></div>
+                  {% elif 0.75 < lengthcat|div:prodlength and lengthcat|div:prodlength <= 1 %}
+                      <div class="progress-bar progress-bar-success" style="width: {{lengthcat|div:prodlength|multiply:100}}%"></div>
+                  {% endif %}
+
+                  </td>
+                  {% if 0 < lengthcat %}
+                      {% if lengthcat <= 1 %}
+                        <td><span class="badge bg-red">{{lengthcat}}</span></td>
+                      {% elif lengthcat <= 2 %}
+                        <td><span class="badge bg-light-blue">{{lengthcat}}</span></td>
+                      {% elif lengthcat <= 3 %}
+                        <td><span class="badge bg-yellow">{{lengthcat}}</span></td>
+                      {% elif lengthcat <= 5 %}
+                        <td><span class="badge bg-green">{{lengthcat}}</span></td>
+                      {% endif %}
+                  {% else %}
+                    <td><span class="badge">{{lengthcat}}</span></td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="#">&laquo;</a></li>
+                <li><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">&raquo;</a></li>
+              </ul>
+            </div>
+          </div>
+          </div>
+        
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <div class="control-sidebar-bg"></div>
+{% endblock %}
+
+{% block JsScripts %} 
+  <script type="text/javascript">
+    //$("#progressbar").css('width', 55+"%");
+  </script>
+{% endblock %}

@@ -1,0 +1,403 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}
+<title>{{prod.name}}</title>
+{% endblock %}
+{% block content %}
+
+{% include "shop/navigation2.html" %}
+
+<!-- section -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<!--  Product Details -->
+			<div class="product product-details clearfix">
+				<div class="col-md-6">
+
+					<div id="product-main-view">
+						<div class="product-view">
+							<img src="{{ prod.image.url }}" alt="">
+						</div>
+						<div class="product-view">
+							<img src="{{ prod.image2.url }}" alt="">
+						</div>
+						<div class="product-view">
+							<img src="{{ prod.image3.url }}" alt="">
+						</div>
+					</div>
+
+					<div id="product-view">
+						<div class="product-view">
+							<img src="{{ prod.image.url }}" alt="">
+						</div>
+						<div class="product-view">
+							<img src="{{ prod.image2.url }}" alt="">
+						</div>
+						<div class="product-view">
+							<img src="{{ prod.image3.url }}" alt="">
+						</div>
+					</div>
+
+				</div>
+				<div class="col-md-6">
+					<div class="product-body">
+						<div class="product-label">
+							{% if prod.piecesStock == 0 %}
+							<span>Out of stock</span>
+							{%endif%}
+							{% if today < 7 %}
+							<span>New</span>
+							{%endif%}
+						</div>
+						<h2 class="product-name prod-name">{{ prod.name }}</h2>
+						<h3 class="product-price">${{ prod.price }} <del class="product-old-price">${{prod.old_price}}</del></h3>
+						<div>
+							<div class="product-rating">
+								{% ifequal 0 prod.rating %}
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 1 prod.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 2 prod.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 3 prod.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 4 prod.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star-o empty"></i>
+								{% endifequal %}
+								{% ifequal 5 prod.rating %}
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								<i class="fa fa-star"></i>
+								{% endifequal %}
+							</div>
+							<a href="#tabs">{{reviews|length}} Review(s) / Add Review</a>
+						</div>
+						{% if prod.piecesStock != 0 %}
+							<p><strong>Availability:</strong> In Stock ({{ prod.piecesStock }})</p>
+						{% else %}
+							<p><strong>Availability:</strong> Out of Stock</p>
+						{% endif %}
+						<p><strong>Brand:</strong> {{ prod.manufacturer }}</p>
+						<p >{{ prod.description|safe }}</p>
+						<div class="product-options">
+							{% if feat != None %}
+										<label >{{feat.0}} :</label>
+										<select id="feature">
+										{% for f in feat %}
+											<option>{{f}}</option>
+										{% endfor %}
+										</select>
+							{% endif %}
+						</div>
+
+						<div class="product-btns">
+								<div class="qty-input">
+									<span class="text-uppercase">QTY: </span>
+									<input class="input" type="number" value="1" id="num">
+								</div>
+							{% if prod.piecesStock != 0 %}
+								<button data-toggle="modal" data-target="#mainproduct" class="primary-btn addtocart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+							{%else%}
+								<button class="primary-btn add_to_cart" disabled><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+							{%endif%}
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12">
+					<div class="product-tab">
+						<ul class="tab-nav"   id="tabs" >
+							<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
+							<li><a data-toggle="tab" href="#tab2">Details</a></li>
+							<li><a data-toggle="tab" href="#tab3">Reviews ({{reviews|length}})</a></li>
+						</ul>
+						<div class="tab-content" >
+							<div id="tab1" class="tab-pane fade in active">
+								<p>{{ prod.description|safe }}</p>
+							</div>
+							<div id="tab2" class="tab-pane fade in ">
+								<p>{{ prod.details|safe }}</p>
+							</div>
+							<div id="tab3" class="tab-pane fade in">
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="product-reviews">
+											{% if reviews|length == 0 %}
+											<div class="single-review">
+												<p>there is no reviews, write the first one.</p>
+											</div>
+											{% endif %}
+											{% for rev in reviews %}
+											<div class="single-review">
+												<div class="review-heading">
+													<div><a href="#"><i class="fa fa-user-o"></i> {{rev.profile.user.first_name}} {{rev.profile.user.last_name}}</a></div>
+													<div><a href="#"><i class="fa fa-clock-o"></i> {{rev.review_date}}</a></div>
+													<div class="review-rating pull-right">
+														{% ifequal 1 rev.rating %}
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star-o empty"></i>
+														<i class="fa fa-star-o empty"></i>
+														<i class="fa fa-star-o empty"></i>
+														<i class="fa fa-star-o empty"></i>
+														{% endifequal %}
+														{% ifequal 2 rev.rating %}
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star-o empty"></i>
+														<i class="fa fa-star-o empty"></i>
+														<i class="fa fa-star-o empty"></i>
+														{% endifequal %}
+														{% ifequal 3 rev.rating %}
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star-o empty"></i>
+														<i class="fa fa-star-o empty"></i>
+														{% endifequal %}
+														{% ifequal 4 rev.rating %}
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star-o empty"></i>
+														{% endifequal %}
+														{% ifequal 5 rev.rating %}
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														{% endifequal %}
+													</div>
+												</div>
+												<div class="review-body">
+													<p>{{rev.review}}</p>
+												</div>
+											</div>
+											{% endfor %}
+										</div>
+									</div>
+									<div class="col-md-6">
+										<h4 class="text-uppercase">Write Your Review</h4>
+
+										{% if request.user.is_authenticated %}
+
+										<p>Your email address will not be published.</p>
+										<form class="review-form" action="/add_review">
+											<input class="input" type="hidden" value="{{prod.Id}}" name="product">
+											<div class="form-group">
+												<textarea name="review" class="input" placeholder="Your review"></textarea>
+											</div>
+											<div class="form-group">
+												<div class="input-rating">
+													<strong class="text-uppercase">Your Rating: </strong>
+													<div class="stars">
+														<input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+														<input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+														<input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+														<input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+														<input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+													</div>
+												</div>
+											</div>
+											<button type="submit" class="primary-btn">Submit</button>
+										</form>
+
+										{% else %}
+
+											<p>Your are not connected</p>
+
+											<a href="/register"><button class="primary-btn">Login</button></a>
+
+										{% endif %}
+
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- /Product Details -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /section -->
+
+<!-- section -->
+<div class="section">
+	<!-- container -->
+	<div class="container">
+		<!-- row -->
+		<div class="row">
+			<!-- section title -->
+			<div class="col-md-12">
+				<div class="section-title">
+					<h2 class="title">Picked For You</h2>
+				</div>
+			</div>
+			<!-- section title -->
+
+			{% for produit in produits|slice:":4" %}
+			<div class="col-md-3 col-sm-6 col-xs-6">
+				<div class="product product-single">
+					<div class="product-thumb">
+						{% if produit.piecesStock == 0 %}
+						<div class="product-label">
+							<span class="sale">Out of Stock</span>
+						</div>
+						{%endif%}
+						<img src="{{ produit.image.url }}" alt="" width="270px" height="360px" style="object-fit: cover;">
+					</div>
+					<div class="product-body">
+						<h3 class="product-price">${{ produit.price }}</h3>
+						<div class="product-rating">
+							{% ifequal 0 produit.rating %}
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							{% endifequal %}
+							{% ifequal 1 produit.rating %}
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							{% endifequal %}
+							{% ifequal 2 produit.rating %}
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							{% endifequal %}
+							{% ifequal 3 produit.rating %}
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o empty"></i>
+							<i class="fa fa-star-o empty"></i>
+							{% endifequal %}
+							{% ifequal 4 produit.rating %}
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star-o empty"></i>
+							{% endifequal %}
+							{% ifequal 5 produit.rating %}
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							<i class="fa fa-star"></i>
+							{% endifequal %}
+						</div>
+						<h2 class="product-name"><a href="/product_detail?prod={{produit.Id}}">{{ produit.name }}</a></h2>
+						<div class="product-btns">
+							{% if produit.piecesStock == 0 %}
+							<button disabled class="primary-btn prod{{produit.Id}}" style="width: 100%"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+							{% else %}
+							<button class="primary-btn prod{{produit.Id}}" style="width: 100%"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /section -->
+
+
+{% endblock %}
+{% block JsScripts %}
+
+<script type="text/javascript">
+	{% for produ in produits %}
+			$('.prod{{produ.Id}}').click(function (){
+				var prod = {{produ.Id}}
+				$.ajax({
+							type: "GET",
+							url: "{% url 'add_to_cart' %}",
+							data:{prod}
+				});
+				const el = document.createElement('div')
+				el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/cart'><button class='primary-btn'>Go to cart!</button></a>"
+				swal({
+					title: "{{produ.name}}",
+					text: "is added to cart!",
+					icon: "success",
+					content: el,
+					button: false,
+				});
+		});
+	{% endfor %}
+</script>
+
+
+<script type="text/javascript">
+		$('.addtocart').click(function (){
+				var prod 		= {{prod.Id}}
+				var num 		= $("#num").val()
+				var feature = $("#feature").val()
+				$.ajax({
+								type: "GET",
+									url: "{% url 'add_to_cart' %}",
+									data:{prod,num,feature}
+							});
+				const el = document.createElement('div')
+				el.innerHTML = "<a href='/'><button style='margin-right:6px' class='primary-btn'>Continue shopping!</button></a><a href='/cart'><button class='primary-btn'>Go to cart!</button></a>"
+				swal({
+					title: "{{prod.name}}",
+					text: "is added to cart!",
+					icon: "success",
+					content: el,
+					button: false,
+				});
+			});
+	</script>
+
+
+{% endblock %}

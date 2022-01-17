@@ -1,0 +1,406 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% load myfilter %}
+{% block header %}
+  <title>Dashboard</title>
+{% endblock %}
+{% block content %}
+<div class="wrapper">
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Dashboard<small>Control panel</small></h1>
+      <ol class="breadcrumb">
+        <li><a href="/dashboard"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Dashboard</li>
+      </ol>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3><span style="font-size: 30px">{{max_views}}</span><span style="font-size: 20px"> Views</span></h3>
+              <p>Most Viewed Product</p>
+            </div>
+            <div class="icon" style="top: -20px; right: 6px;">
+              <a href="/product_detail/?prod={{topviewed.Id}}">
+                <img width="70px" src="{{topviewed.image.url}}" alt="topviewed">
+              </a>
+            </div>
+            <a href="/tables/viewproductsimple" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3><span style="font-size: 30px">{{max_rating}} </span><span style="font-size: 20px"><i class="fa fa-star"></i></span></h3>
+              <p>Best Rated Product</p>
+            </div>
+            <div class="icon" style="top: -20px; right: 6px;">
+              <a href="/product_detail/?prod={{toprated.Id}}">
+                <img width="70px" src="{{toprated.image.url}}" alt="toprated">
+              </a>
+            </div>
+            <a href="/tables/viewproductsimple" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-green">
+            <div class="inner">
+              <h3><span style="font-size: 30px">{{profiles|length}} Clients</span></h3>
+              <p style="color:#00A65A;">.</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person"></i>
+            </div>
+            <a href="/tables/viewusersclients" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3><span style="font-size: 30px">{{sales}} $</span></h3>
+              <p>total sales</p>
+            </div>
+            <div class="icon">
+              <i class="fa fa-shopping-cart"></i>
+            </div>
+            <a class="small-box-footer"> <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="box box-solid bg-teal-gradient">
+            <div class="box-header">
+              <i class="fa fa-th"></i>
+              <h3 class="box-title">Orders Graph</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn bg-teal btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn bg-teal btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body border-radius-none">
+              <div class="chart" id="line-chart" style="height: 250px;"></div>
+            </div>
+          </div>
+      <div class="row">
+        <section class="col-lg-7 connectedSortable">
+            <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Recently Added Products</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body">
+              {% if prodates|length != 0 %}
+              <ul class="products-list product-list-in-box">
+                {% for prodate in prodates %}
+                <li class="item">
+                  <div class="product-img">
+                    <img src="{{ prodate.image.url }}" alt="Product Image">
+                  </div>
+                  <div class="product-info">
+                    <a href="/product_detail/?prod={{prodate.Id}}" class="product-title">{{prodate.name}}
+                      <span class="label label-warning pull-right">{{prodate.price}} $</span></a>
+                    <span class="product-description" style="height: 20px;">
+                          {{prodate.description|safe}}
+                    </span>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+                <img src="{% static '/images/noproductfound.png' %}" alt="Product Image" style="
+                display: block;margin-left: auto;margin-right: auto;width: 50%;">
+              {% endif %}
+            </div>
+            <div class="box-footer text-center">
+              <a href="/tables/viewproductsimple"  class="uppercase">View All Products</a>
+            </div>
+          </div>
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Latest Orders</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Items</th>
+                    <th>Total price</th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {% for order in orders %}
+                  <tr>
+                    <td>{{order.id}}</td>
+                    <td>{{ordersProducts|hash:order.id|length}}</td>
+                    <td>${{order.total_price}}</td>
+                    {% ifequal 'Accepted' order.status %}
+                      <td><span class="label label-info">{{order.status}}</span></td>
+                    {% endifequal %}
+                    {% ifequal 'Canceled' order.status %}
+                      <td><span class="label label-danger">{{order.status}}</span></td>
+                    {% endifequal %}
+                    {% ifequal 'Shipped' order.status %}
+                      <td><span class="label label-success">{{order.status}}</span></td>
+                    {% endifequal %}
+                    {% ifequal 'ON HOLD' order.status %}
+                      <td><span class="label label-warning">{{order.status}}</span></td>
+                    {% endifequal %}
+                    <td>{{order.payment}}</td>
+                    <td><a data-toggle="modal" data-target="#order{{order.id}}"><button class="btn btn-default btn-flat"><i class="fa fa-shopping-cart"></i></button></a></td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="col-lg-5 connectedSortable">
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">Products By Category</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            {% if productnumbycategory|length != 0 %}
+            <div class="box-body">
+              <canvas id="pieChart" style="height:250px"></canvas>
+            {% else %}
+              <div class="box-body">
+              <img src="{% static '/img/donut.png' %}" alt="Product Image" style="
+                  display: block;margin-left: auto;margin-right: auto;width: 75%;">
+              <p style=" text-align: center;">Donut Chart</p>
+            {% endif %}
+            </div>
+          </div>
+          <div class="box box-danger">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Latest Members</h3>
+                  <div class="box-tools pull-right">
+                    <span class="label label-danger">{{profiles|length}} Members</span>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="box-body no-padding">
+                  {% if profiles|length != 0 %}
+                  <ul class="users-list clearfix">
+                    {% for profile in profiles %}
+                    <li>
+                      {% if profile.profilePic %}
+                      <img src="{{ profile.profilePic.url }}" alt="User Image" style="height: 90px; width: 90px; object-fit: cover;">
+                      {% endif %}
+                      <a class="users-list-name" href="/tables/viewusersclients">{{profile.user.username}}</a>
+                      <span class="users-list-date">{{profile.user.date_joined|date:"d M"}}</span>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                  {% else %}
+                <img src="{% static '/images/nouserfound.png' %}" alt="Product Image" style="
+                display: block;margin-left: auto;margin-right: auto;width: 75%;">
+              {% endif %}
+                </div>
+                <div class="box-footer text-center">
+                  <a href="/tables/viewusersclients" class="uppercase">View All Users</a>
+                </div>
+              </div>
+
+        </section>
+      </div>
+    </section>
+  </div>
+  <div class="control-sidebar-bg"></div>
+
+  {% for order in orders %}
+  	<div class="modal fade" id="order{{order.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  		<div class="modal-dialog modal-dialog-centered" role="document">
+  			<div class="modal-content">
+  				<div class="modal-body">
+  					<table class="shopping-cart-table table" style="width:100%;">
+  						<thead>
+  							<tr>
+  								<th></th>
+  								<th>Product</th>
+  								<th class="text-center">Price</th>
+  								<th class="text-center">Total</th>
+  							</tr>
+  						</thead>
+  						<tbody>
+  							{% for dict in ordersProducts|hash:order.id %}
+  								{% for produit in dict.0 %}
+  							<tr>
+  								<td class="thumb"><img src="{{produit.image.url}}" alt="" height="50px" style="object-fit: cover;"></td>
+  								<td class="details">
+  									<a href="/product_detail/?prod={{produit.Id}}">{{ produit.name }} &times; {{dict.1.quantity}}</a>
+  									{% ifnotequal 'nothing' dict.1.feature %}
+  									<ul>
+  										<li><span>{{dict.1.feature}}</span></li>
+  									</ul>
+  									{% endifnotequal %}
+  								</td>
+  								<td class="price text-center"><strong>${{ produit.price }}</strong></td>
+  								<td class="total text-center"><strong class="primary-color">$ <a class="primary-color" >{{dict.1.quantity|multiply:produit.price }}</a></strong></td>
+  							</tr>
+  							{% endfor %}
+  						{% endfor %}
+  						</tbody>
+  					</table
+  				</div>
+  				<div class="modal-footer" style="text-align: center;border-top:0px">
+            {% ifnotequal 'Shipped' order.status %}
+              {% ifnotequal 'Canceled' order.status %}
+              {% ifnotequal 'Accepted' order.status %}
+  					<a href="/forms/orderS/?order={{order.id}}&status=Accepted">
+              <button type="button" class="btn primary-btn">Accept Order</button>
+            </a>
+              {% endifnotequal %}
+            <a href="/forms/orderS/?order={{order.id}}&status=Canceled">
+              <button type="button" class="btn primary-btn">Cancel Order</button>
+            </a>
+            <a href="/forms/orderS/?order={{order.id}}&status=Shipped">
+              <button type="button" class="btn primary-btn">Order Shipped</button>
+            </a>
+              {% endifnotequal %}
+            {% endifnotequal %}
+  				</div>
+  			</div>
+  		</div>
+  	</div>
+  	</div>
+  {% endfor %}
+
+{% endblock %}
+{% block JsScripts %}
+<script src="{% static 'bower_components/jquery-ui/jquery-ui.min.js' %}"></script>
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script src="{% static 'bower_components/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'bower_components/morris.js/morris.min.js' %}"></script>
+<script src="{% static 'bower_components/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+<script src="{% static 'plugins/jvectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
+<script src="{% static 'plugins/jvectormap/jquery-jvectormap-world-mill-en.js' %}"></script>
+<script src="{% static 'bower_components/jquery-knob/dist/jquery.knob.min.js' %}"></script>
+<script src="{% static 'bower_components/moment/min/moment.min.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js' %}"></script>
+<script src="{% static '/bower_components/chart.js/Chart.js' %}"></script>
+<script src="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js' %}"></script>
+<script src="{% static 'dist/js/pages/dashboard.js' %}"></script>
+
+<script type="text/javascript">
+
+  $(function () {
+    "use strict";
+    // LINE CHART
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    var data = [];
+    {% regroup orders by Order_date|date:"Y-m-d" as orders_list %}
+        {% for order in orders_list %}
+        d = {
+          m : "{{ order.grouper }}",
+          b : {{ order.list|length }}
+        }
+        data.push(d);
+        {% endfor %}
+
+    Morris.Line({
+      element: 'line-chart',
+      data: data,
+      xkey: 'm',
+      ykeys: ['b'],
+      labels: ['orders'],
+      xLabelFormat: function (da) {
+        var weekdays = new Array(7);
+        weekdays[0] = "SUN";
+        weekdays[1] = "MON";
+        weekdays[2] = "TUE";
+        weekdays[3] = "WED";
+        weekdays[4] = "THU";
+        weekdays[5] = "FRI";
+        weekdays[6] = "SAT";
+
+        //return weekdays[da.getDay()] + '-' + ("0" + (da.getMonth() + 1)).slice(-2) ;
+        return weekdays[da.getDay()] +'-'+ months[da.getMonth()];
+
+      },
+      resize: true
+    });
+  });
+
+</script>
+
+<script type="text/javascript">
+  var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+    var pieChart       = new Chart(pieChartCanvas)
+    var colors = [];
+
+    var colors = ['#1abc9c', '#3498db', '#ecf0f1', '#e74c3c', '#f39c12', '#6c5ce7', '#e84393', '#00cec9', '#FFC312', '#1B1464', '#833471', '#ED4C67', '#A3CB38', '#a29bfe', '#ff7675', '#00b894', '#636e72', '#ffeaa7'];
+    var PieData = []
+    indice = 0;
+    {% for pcat, pnum in productnumbycategory.items %}
+      indice ++; //Math.floor((Math.random()*18)+1);
+      d = {
+        value : "{{pnum}}",
+        label : "{{pcat}}",
+        color    : String(colors[indice]),
+        highlight: String(colors[indice])
+      }
+      PieData.push(d)
+    {% endfor %}
+
+    var pieOptions     = {
+      //Boolean - Whether we should show a stroke on each segment
+      segmentShowStroke    : true,
+      //String - The colour of each segment stroke
+      segmentStrokeColor   : '#fff',
+      //Number - The width of each segment stroke
+      segmentStrokeWidth   : 2,
+      //Number - The percentage of the chart that we cut out of the middle
+      percentageInnerCutout: 50, // This is 0 for Pie charts
+      //Number - Amount of animation steps
+      animationSteps       : 100,
+      //String - Animation easing effect
+      animationEasing      : 'easeOutBounce',
+      //Boolean - Whether we animate the rotation of the Doughnut
+      animateRotate        : true,
+      //Boolean - Whether we animate scaling the Doughnut from the centre
+      animateScale         : false,
+      //Boolean - whether to make the chart responsive to window resizing
+      responsive           : true,
+      // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+      maintainAspectRatio  : true,
+      //String - A legend template
+      legendTemplate       : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){ %><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){ %><%=segments[i].label%><%}%></li><%}%></ul>'
+
+    }
+    pieChart.Doughnut(PieData, pieOptions)
+</script>
+
+    {% endblock %}
+</body>
+</html>

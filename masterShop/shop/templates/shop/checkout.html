@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load myfilter %}
+{% block header %}
+
+<title>Checkout</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% endblock %}
+
+{% block content %}
+
+{% include "shop/navigation2.html" %}
+
+
+	<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+					<div class="col-md-6">
+						<div class="billing-details">
+							<div class="section-title">
+								<h3 class="title">Billing Details</h3>
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="first-name" placeholder="First Name" value="{{request.user.first_name}}">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="last-name" placeholder="Last Name" value="{{request.user.last_name}}">
+							</div>
+							<div class="form-group">
+								<input class="input" type="email" name="email" placeholder="Email" value="{{request.user.email}}">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="address" placeholder="Address" value="{{profile.address}}">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="country" placeholder="Country" value="{{profile.country}}">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+							</div>
+							<div class="form-group">
+								<input class="input" type="tel" name="tel" placeholder="Telephone">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<form action="/order_received" id="formid">
+							<div class="shiping-methods">
+								<div class="section-title">
+									<h4 class="title">Shipping Methods</h4>
+								</div>
+								{% for meth in ship_meth %}
+								<div class="input-checkbox">
+									<input type="radio" name="shipping" id="shipping-{{meth.id}}" value="{{meth.shipping_company}}" checked>
+									<label for="shipping-1">{{meth.shipping_company}}-  ${{meth.cost}}</label>
+									<div class="caption">
+										<img style="width: 100px;" src="{{meth.icon.url}}" alt="icon">
+										<b>Estimated delivery time :</b> {{meth.estimated_delivery_time}} days
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+
+							<div class="payments-methods">
+								<div class="section-title">
+									<h4 class="title">Payments Methods</h4>
+								</div>
+								<div class="input-checkbox">
+									<input type="radio" name="payments" id="payments-1" value="Credit card" checked>
+									<label for="payments-1">Credit card</label>
+									<div class="caption">
+										<div class="row">
+				              <div class="col-md-6 mb-3">
+				                <label for="cc-name">Name on card</label>
+				                <input type="text" class="form-control" id="cc-name" placeholder="Full name as displayed on card">
+				              </div>
+				              <div class="col-md-6 mb-3">
+				                <label for="cc-number">Credit card number</label>
+				                <input type="text" class="form-control" id="cc-number" placeholder="Credit card number">
+				              </div>
+				            </div>
+				            <div class="row">
+				              <div class="col-md-3 mb-3">
+				                <label for="cc-expiration">Expiration</label>
+				                <input type="text" class="form-control" id="cc-expiration" placeholder="Expiration date">
+				              </div>
+				              <div class="col-md-3 mb-3">
+				                <label for="cc-expiration">CVV</label>
+				                <input type="text" class="form-control" id="cc-cvv" placeholder="Security code" >
+				              </div>
+				            </div>
+									</div>
+								</div>
+								<div class="input-checkbox">
+									<input type="radio" name="payments" id="payments-2" value="Paypal">
+									<label for="payments-2">Paypal</label>
+									<div class="caption">
+										<p>Paypal is easiest way to pay online.<p>
+										<p>
+											<button type="button" class="btn btn-primary"> <i class="fa fa-paypal"></i> Log in my Paypal </button>
+										</p>
+									</div>
+								</div>
+								<div class="input-checkbox">
+									<input type="radio" name="payments" id="payments-3" value="Bank Transfer">
+									<label for="payments-3">Bank Transfer</label>
+									<div class="caption">
+										<p>Bank account details</p>
+										<dl class="param">
+										  <dt>BANK: </dt>
+										  <dd> THE WORLD BANK</dd>
+										</dl>
+										<dl class="param">
+										  <dt>Account number: </dt>
+										  <dd> 12345678912345</dd>
+										</dl>
+										<dl class="param">
+										  <dt>IBAN: </dt>
+										  <dd> 123456789</dd>
+										</dl>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<div class="col-md-12">
+						<div class="order-summary clearfix">
+							<div class="section-title">
+								<h3 class="title">Order Review</h3>
+							</div>
+							<table class="shopping-cart-table table">
+								<thead>
+									<tr>
+										<th>Product</th>
+										<th></th>
+										<th class="text-center">Price</th>
+										<th class="text-center">Quantity</th>
+										<th class="text-center">Total</th>
+									</tr>
+								</thead>
+                {% for dict in dictios %}
+  								{% for produit in dict.0 %}
+  								<tr>
+  									<td class="thumb"><img src="{{produit.image.url}}" alt="" height="85px" style="object-fit: cover;"></td>
+  									<td class="details">
+  										<a href="/product_detail/?prod={{produit.Id}}">{{ produit.name }}</a>
+											{% ifnotequal 'nothing' dict.1.feature %}
+											<ul>
+												<li><span>{{dict.1.feature}}</span></li>
+											</ul>
+											{% endifnotequal %}
+  									</td>
+  									<td class="price text-center"><strong>${{ produit.price }}</strong><br><del class="font-weak"><small>${{ produit.old_price }}</small></del></td>
+  									<td class="qty text-center">
+  										<input readonly class="input" type="text" value="{{dict.1.quantity}}" max="{{produit.piecesStock}}" id="num{{produit.Id}}" style="text-align: center;">
+  									</td>
+  									<td class="total text-center"><strong class="primary-color">$ <a class="primary-color" id="totalPrice{{produit.Id}}">{{dict.1.quantity|multiply:produit.price }}</a></strong></td>
+  								</tr>
+  								{% endfor %}
+  							{% endfor %}
+								<tfoot>
+									<tr>
+										<th class="empty" colspan="3"></th>
+										<th>SUBTOTAL</th>
+										<th colspan="2" class="sub-total">$ <span id="Subtotal">97.50</span></th>
+									</tr>
+									<tr>
+										<th class="empty" colspan="3"></th>
+										<th>SHIPPING</th>
+										<td colspan="2" id="shipping">Free Shipping</td>
+									</tr>
+									<tr>
+										<th class="empty" colspan="3"></th>
+										<th>TOTAL</th>
+										<th colspan="2" >$ <input form="formid" style="background-color: transparent; border: none; width: 100px;" id="total" type="text" name="total" value="97.50" readonly> </th>
+									</tr>
+								</tfoot>
+							</table>
+							<div class="pull-right">
+								<button type="submit" form="formid" class="primary-btn">Place Order</button>
+							</div>
+						</div>
+					</div>
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /section -->
+
+{% endblock %}
+{% block JsScripts %}
+<script type="text/javascript">
+		var Total = 0;
+		{% for dict in dictios %}
+			{% for produit in dict.0 %}
+				 Total = Total + {{produit.price}} * 	{{dict.1.quantity}} ;
+		 {% endfor %}
+	 {% endfor %}
+	 $('#Subtotal').text(Total );
+</script>
+
+<script type="text/javascript">
+	var shipp = document.querySelector('input[name="shipping"]:checked').value;
+	$('#shipping').text( shipp );
+	var ship = 0;
+	$('input[name=shipping]').change(function(){
+		var shipp2 = document.querySelector('input[name="shipping"]:checked').value;
+		$('#shipping').text( shipp2 );
+		{% for meth in ship_meth %}
+			if ( shipp2.localeCompare('{{meth.shipping_company}}') == 0) {
+				ship = {{meth.cost}};
+			}
+		{% endfor %}
+		$('#total').val( parseFloat(ship)+parseFloat($('#Subtotal').text()) );
+	});
+
+	$('#total').val( parseFloat(ship)+parseFloat($('#Subtotal').text()) );
+</script>
+
+{% endblock %}

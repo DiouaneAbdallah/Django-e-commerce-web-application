@@ -1,0 +1,123 @@
+{% extends 'sellerbase.html' %}
+{% load static %}
+{% load myfilter %}
+
+{% block header %}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Widgets</title>
+  {% endblock %}
+
+  <link rel="stylesheet" href="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+{% block content %}
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Mailbox
+        <small>{{newmessages|length}} new messages</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Compose</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-3">
+          <a href="/mailbox/mastersellermailbox" class="btn btn-primary btn-block margin-bottom">Back to Inbox</a>
+
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">Folders</h3>
+
+              <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body no-padding">
+              <ul class="nav nav-pills nav-stacked">
+                <li><a href="/mailbox/mastersellermailbox"><i class="fa fa-inbox"></i> Inbox
+                  <span class="label label-primary pull-right">{{messages|length}}</span></a></li>
+                <li><a href="/mailbox/mastersellersent"><i class="fa fa-envelope-o"></i> Sent</a></li>
+                <li><a href="/mailbox/mastersellerdraft"><i class="fa fa-file-text-o"></i> Drafts</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Compose New Message</h3>
+            </div>
+            <form action="/mailbox/mastersellercompose/" method="post" id="form">
+              {% csrf_token %}
+            <div class="box-body">
+              <div class="form-group">
+                {% if forward %}
+                <input class="form-control" name="sendto" id="sendto" placeholder="To:">
+                {% else %}
+                <input class="form-control" name="sendto" id="sendto" placeholder="To:" value="{{replyto.profile.user.email}}">
+                {% endif %}
+              </div>
+              <div class="form-group">
+                {% if forward %}
+                <input class="form-control" name="mailsubject" id="mailsubject" placeholder="Subject:" value="{{forward.subject}}">
+                {% else %}
+                <input class="form-control" name="mailsubject" id="mailsubject" placeholder="Subject:">
+                {% endif %}
+              </div>
+              <div class="form-group">
+                {% if forward %}
+                <textarea id="compose-textarea" name="composetextarea" class="form-control" style="height: 300px">{{forward.content}}</textarea>
+                {% else %}
+                <textarea id="compose-textarea" name="composetextarea" class="form-control" style="height: 300px"></textarea>
+                {% endif %}
+                    
+              </div>
+            </div>
+            <div class="box-footer">
+              <div class="pull-right">
+                <button type="submit" name="draftbtn" value="draf" class="btn btn-default"><i class="fa fa-pencil"></i> Draft</button>
+                <button type="submit" name="sendmailbtn" value="sendmail" id="sendmail" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send</button>
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+     {% endblock %}
+  <div class="control-sidebar-bg"></div>
+</div>
+{% block JsScripts %}
+<script src="{% static "/bower_components/fastclick/lib/fastclick.js" %}"></script>
+<script src="{% static "/plugins/iCheck/icheck.min.js" %}"></script>
+<script src="{% static "/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" %}"></script>
+<script type="text/javascript" src="{% static "vendor/sweetalert/sweetalert.min.js" %}"></script>
+<script>
+  $(function () {
+    //Add text editor
+    $("#compose-textarea").wysihtml5();
+  });
+
+  $('#sendmail').click(function () {
+    $("form").submit(function(e){
+      if($('#sendto').val() == "" || $('#mailsubject').val() == "" || $('textarea#compose-textarea').val() == ""){
+        e.preventDefault(e);
+        swal("","Fill in all fields", "error") 
+      }
+    });
+  });
+
+  
+
+</script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'adminbase.html' %}
+{% load static %}
+{% block header %}
+  <title>Clients</title>
+{% endblock %}
+{% block content %}
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>Users data</h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Users</a></li>
+        <li class="active">Clients</li>
+      </ol>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Clients informations</h3>
+            </div>
+            <div class="box-body">
+              <table id="example2" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>Profile ID</th>
+                  <th>Username</th>
+                  <th>Joined date</th>
+                  <th>Fisrt name</th>
+                  <th>Last name</th>
+                  <th>Address</th>
+                  <th>Country</th>
+                  <th>Birth date</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {% for profile in profiles %}
+                <tr>
+                  <td>{{profile.Id}}</td>
+                  <td>{{profile.user.username}}</td>
+                  <td>{{profile.user.date_joined}}</td>
+                  <td>{{profile.user.first_name}}</td>
+                  <td>{{profile.user.last_name}}</td>
+                  <td>{{profile.address}}</td>
+                  <td>{{profile.country}}</td>
+                  <td>{{profile.birth_date}}</td>
+                </tr>
+                {% endfor %}
+
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>Profile ID</th>
+                  <th>Username</th>
+                  <th>Joined date</th>
+                  <th>Fisrt name</th>
+                  <th>Last name</th>
+                  <th>Address</th>
+                  <th>Country</th>
+                  <th>Birth date</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+  {% endblock %}
+  {% block JsScripts %}  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>
+</div>
+
+<script src="{% static "/bower_components/datatables.net/js/jquery.dataTables.min.js" %}"></script>
+<script src="{% static "/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" %}"></script>
+<link rel="stylesheet" href="{% static "/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css" %}">
+<!-- page script -->
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+{% endblock %}

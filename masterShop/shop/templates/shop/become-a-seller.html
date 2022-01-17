@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block header %}
+
+<title>Become a seller!</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% endblock %}
+
+{% block content %}
+
+{% include "shop/navigation2.html" %}
+
+<!-- section -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2">
+				</div>
+				<div class="col-md-8 offset-md-3">
+					<div class="section-title">
+						<h3 class="title">Become a seller!</h3>
+					</div>
+					<form action="/become_a_seller" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<div class="row">
+							<div class="col-md-6 form-group">
+								<label for="formGroupusername">User name</label>
+								<input type="text" class="form-control" value="{{request.user.username}}" name="username" id="formGroupusername" placeholder="UserName">
+							</div>
+
+							<div class="col-md-6 form-group">
+								<label for="formGroupemail">Email</label>
+								<input type="email" class="form-control" value="{{request.user.email}}" name="email" id="formGroupemail" placeholder="Email Address">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="formGroupaddress">Message</label>
+							<textarea class="form-control" name="message" rows="10" placeholder="Message... Why you wanna be a seller ?" id="formGroupaddress"></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary mb-2">Start Your Legend!</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  {% endblock %}

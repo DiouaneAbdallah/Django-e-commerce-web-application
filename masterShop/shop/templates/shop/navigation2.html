@@ -1,0 +1,294 @@
+{% load static %}
+	<div id="navigation">
+		<div class="container">
+			<div id="responsive-nav">
+				<div class="category-nav show-on-click">
+          <span class="category-header">Categories <i class="fa fa-list"></i></span>
+          <ul class="category-list">
+            <li class="dropdown side-dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Video Games<i class="fa fa-angle-right"></i></a>
+              <div class="custom-menu" style="padding: 15px;">
+								<h4 class="list-links-title">By Platforms :</h4>
+                <div class="row">
+                  <div class="col-md-3">
+										<a href="/products?cat=1&key=PC">
+                    	<img height='120px' src="{% static 'shop/img/PcLogo.jpg' %}" alt="">
+										</a>
+                    <hr class="hidden-md hidden-lg">
+                  </div>
+									<div class="col-md-3">
+										<a href="/products?cat=1&key=PlayStation%204">
+											<img height='120px' src="{% static 'shop/img/PsLogo.jpg' %}" alt="">
+										</a>
+                    <hr class="hidden-md hidden-lg">
+                  </div>
+									<div class="col-md-3">
+										<a href="/products?cat=1&key=Xbox">
+											<img height='120px' src="{% static 'shop/img/XboxLogo.jpg' %}" alt="">
+										</a>
+                    <hr class="hidden-md hidden-lg">
+                  </div>
+                  <div class="col-md-3">
+										<a href="/products?cat=1&key=Nintendo">
+											<img height='120px' src="{% static 'shop/img/NintendoSwitchLogo.jpg' %}" alt="">
+										</a>
+                    <hr class="hidden-md hidden-lg">
+                  </div>
+                </div>
+                <div class="row hidden-sm hidden-xs">
+                  <div class="col-md-12">
+                    <hr>
+                    <a class="banner banner-1" href="/products?cat=1">
+                      <img src="{% static 'shop/img/banner05.jpg' %}" alt="">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li><a href="/products?cat=2">Consoles</a></li>
+            <li class="dropdown side-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Gaming equipment<i class="fa fa-angle-right"></i></a>
+              <div class="custom-menu">
+                <div class="row">
+                  <div class="col-md-4" style="margin-right:-15px;">
+                    <ul class="list-links list-nav">
+                      <li><a href="/products?cat=4">Gaming laptops</a></li>
+                      <li><a href="/products?cat=10">Gaming desktops</a></li>
+                      <li><a href="/products?cat=9">Gaming monitors</a></li>
+											<li><a href="/products?cat=9">Gaming chairs</a></li>
+                    </ul>
+                    <hr class="hidden-md hidden-lg">
+                  </div>
+                  <div class="col-md-4"  style="margin-left:-16px;">
+                    <ul class="list-links list-nav">
+                      <li><a href="/products?cat=8">Controllers</a></li>
+                      <li><a href="/products?cat=7">Headsets</a></li>
+                      <li><a href="/products?cat=6">Gaming Keyboards</a></li>
+                      <li><a href="/products?cat=5">Gaming mouses</a></li>
+                    </ul>
+                  </div>
+                  <div class="col-md-4 hidden-sm hidden-xs">
+                    <a class="banner banner-2" href="#" style="margin:0px;">
+                      <img height='205px' src="{% static 'shop/img/bannerGaming.jpg' %}" alt="">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li><a href="/products?cat=11">Printers</a></li>
+						<li class="dropdown side-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Electronics<i class="fa fa-angle-right"></i></a>
+							<div class="custom-menu" style="width: auto;">
+										<ul class="list-links list-nav">
+											<li><a href="/products?cat=3">Smartphones</a></li>
+											<li><a href="/products?cat=16">Tablets</a></li>
+										</ul>
+							</div>
+						</li>
+            <li><a href="/products">View All</a></li>
+          </ul>
+
+				</div>
+				<!-- /category nav -->
+
+        <!-- menu nav -->
+        <div class="menu-nav">
+          <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+          <ul class="menu-list">
+            <li><a href="/">Home</a></li>
+            <li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Gaming <i class="fa fa-caret-down"></i></a>
+              <div class="custom-menu" style="padding: 15px;">
+                <div class="row">
+
+                  <div class="col-md-4">
+										<h4 class="list-links-title">Video games :</h4>
+                    <ul class="list-links list-nav">
+                      <li>
+                        <li><a href="/products?cat=1&key=PlayStation%204">PlayStation 4</a></li>
+                        <li><a href="/products?cat=1&key=Xbox">Xbox</a></li>
+                        <li><a href="/products?cat=1&key=Nintendo">Nintendo</a></li>
+                        <li><a href="/products?cat=1&key=PC">PC</a></li>
+
+                    </ul>
+                    <hr class="hidden-md hidden-lg">
+                  </div>
+
+                  <div class="col-md-4">
+										<h4 class="list-links-title">Equipment :</h4>
+                    <ul class="list-links list-nav">
+                      <li>
+                        <li><a href="/products?cat=8">Controllers</a></li>
+                        <li><a href="/products?cat=6">Gaming Keyboards</a></li>
+                        <li><a href="/products?cat=10">Gaming desktops</a></li>
+                        <li><a href="/products?cat=9">Gaming monitors</a></li>
+                    </ul>
+                    <hr class="hidden-md hidden-lg">
+                  </div>
+
+                  <div class="col-md-4">
+										<h4 class="list-links-title">Consoles :</h4>
+                    <ul class="list-links list-nav">
+                      <li>
+                      <li><a href="/product_detail?prod=8">PlayStation 4 Pro 1 To</a></li>
+                      <li><a href="/product_detail?prod=7">Nintendo Switch</a></li>
+                      <li><a href="/product_detail?prod=6">Xbox One S 500GB</a></li>
+                      <li><a href="/product_detail?prod=49">Super NES Classic</a></li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="row hidden-sm hidden-xs">
+                  <div class="col-md-12">
+                    <hr>
+                    <a class="banner banner-1" href="/products?cat=12">
+                      <img src="{% static 'shop/img/banner25.jpg' %}" alt="">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="dropdown mega-dropdown full-width"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Brands <i class="fa fa-caret-down"></i></a>
+              <div class="custom-menu" style="width: 780px;left: 100px;">
+                <div class="row">
+
+                  <div class="col-md-2">
+
+                    <div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Rockstar">
+                        <img src="{% static 'shop/img/Rockstar.jpg' %}" alt="">
+                      </a>
+                    </div>
+                    <div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=HP">
+                        <img src="{% static 'shop/img/HP.jpg' %}" alt="">
+                      </a>
+                    </div>
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=SteelSeries">
+                        <img src="{% static 'shop/img/SteelSeries.jpg' %}" alt="">
+                      </a>
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+                    <div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Google">
+                        <img src="{% static 'shop/img/Google.jpg' %}" alt="">
+                      </a>
+                    </div>
+                    <div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Logitech">
+                        <img src="{% static 'shop/img/Logitech.jpg' %}" alt="">
+                      </a>
+                    </div>
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Dell">
+                        <img src="{% static 'shop/img/Dell.jpg' %}" alt="">
+                      </a>
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Bethesda%20Softworks">
+                        <img src="{% static 'shop/img/Bethesda.jpg' %}" alt="">
+                      </a>
+                    </div>
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=MSI">
+                        <img src="{% static 'shop/img/Msi.jpg' %}" alt="">
+                      </a>
+                    </div>
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Activision">
+                        <img src="{% static 'shop/img/Activision.jpg' %}" alt="">
+                      </a>
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Asus">
+                        <img src="{% static 'shop/img/Asus.jpg' %}" alt="">
+                      </a>
+                    </div>
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Ubisoft">
+                        <img src="{% static 'shop/img/Ubisoft.jpg' %}" alt="">
+                      </a>
+                    </div>
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=CORSAIR">
+                        <img src="{% static 'shop/img/Corsair.jpg' %}" alt="">
+                      </a>
+                    </div>
+
+                  </div>
+									<div class="col-md-2">
+
+                    <div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Razer">
+                        <img src="{% static 'shop/img/Razer.jpg' %}" alt="">
+                      </a>
+                    </div>
+                    <div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=EA">
+                        <img src="{% static 'shop/img/Ea.jpg' %}" alt="">
+                      </a>
+                    </div>
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Canon">
+                        <img src="{% static 'shop/img/Canon.jpg' %}" alt="">
+                      </a>
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+                    <div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Samsung">
+                        <img src="{% static 'shop/img/Samsung.jpg' %}" alt="">
+                      </a>
+                    </div>
+                    <div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Konami">
+                        <img src="{% static 'shop/img/Konami.jpg' %}" alt="">
+                      </a>
+                    </div>
+										<div class="hidden-sm hidden-xs">
+                      <a class="banner banner-1" href="/products?manu=Microsoft">
+                        <img src="{% static 'shop/img/Microsoft.jpg' %}" alt="">
+                      </a>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li><a href="/products?cat=11">Printers</a></li>
+            <li><a href="/contact">Contact us</a></li>
+          </ul>
+        </div>
+        <!-- menu nav -->
+			</div>
+		</div>
+		<!-- /container -->
+	</div>
+<!-- /NAVIGATION -->
+<style media="screen">
+	.list-nav>li+li {
+    border-top: 1px solid #DADADA;
+	}
+
+	.list-nav {
+		border-left: 1px solid #DADADA;
+		border-right: 1px solid #DADADA;
+		border-bottom: 1px solid #DADADA;
+	}
+	.list-nav>li>a {
+  display: block;
+  padding: 15px;
+  text-transform: uppercase;
+}
+</style>
